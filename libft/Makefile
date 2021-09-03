@@ -22,22 +22,22 @@ CC     =	gcc
 
 CFLAGS =	-Wall -Wextra -Werror
 
-.c.o:		
-			$(CC) $(CFLAGS) -c $^ -o $@
+.c.o:
+			@$(CC) $(CFLAGS) -c $^ -o $@
 
 all:		$(NAME)
 
 $(NAME):	$(OBJS) $(HDR)
-			ar -crs $(NAME) $?
+			@ar -crs $(NAME) $?
 
 bonus:		$(OBJS_B) $(HDR)
-			ar -crs $(NAME) $?
+			@ar -crs $(NAME) $?
 
 clean:
-			rm -rf *.o
+			@rm -rf *.o
 
 fclean:		clean
-			rm -rf $(NAME)
+			@rm -rf $(NAME)
 
 re:			fclean all
 
