@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
+/*   Updated: 2021/09/04 00:29:01 by prochell         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	input_eof(void)
@@ -40,22 +52,29 @@ void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell minishell;
+	// t_shell	minishell;
+	// char	***environment;
+
+	// Добавил парсер окружения
+	(void)argc;
+	(void)argv;
+	// environment = get_envp(envp);
+	get_envp(envp);
+
+	// initialization(&minishell, argc, argv, envp);
+	// while (1)
+	// {
+	// 	minishell.input = readline("minishell$ ");
+	// 	if (!(minishell.input))
+	// 		input_eof();
+	// 	if (ft_strlen(minishell.input) == 0)
+	// 		continue;
+	// 		// printf("нужно удалить историю, если нулевая длина");
+	// 	// if (minishell.input == "\n")
+	// 	// 	printf("lol");
+	// 	add_history(minishell.input);
+	// 	parser(&minishell);
 
 
-	initialization(&minishell, argc, argv, envp);
-    while (1)
-    {
-        minishell.input = readline("minishell$ ");
-        if (!(minishell.input))
-            input_eof();
-		if (ft_strlen(minishell.input) == 0)
-			printf("нужно удалить историю, если нулевая длина");
-		// if (minishell.input == "\n")
-		// 	printf("lol");
-        add_history(minishell.input);
-		parser(&minishell);
-
-		
-    }
+	// }
 }

@@ -1,10 +1,11 @@
-NAME   :=	minishell
-SRC    :=	minishell.c signal_handler.c single_quote.c
-OBJ    :=	$(SRC:.c=.o)
-HDR    :=	minishell.h
-CC     :=	gcc
-CFLAGS :=	-Wall -Wextra -Werror -MMD
-VPATH  :=	src include
+NAME	= minishell
+SRC		= minishell.c signal_handler.c single_quote.c env.c
+OBJ		= $(SRC:.c=.o)
+HDR		= minishell.h
+CC		= gcc
+CFLAGS	= -Wall -Wextra -Werror -MMD
+VPATH	= src include
+USER	= prochell
 
 all:		$(NAME)
 
@@ -12,12 +13,12 @@ all:		$(NAME)
 # -ltermcap - tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 $(NAME):	$(OBJ)
 			$(MAKE) -C libft
-			$(CC) $(CFLAGS) -Llibft -lft -lreadline -L/Users/signacia/.brew/Cellar/readline/8.1/lib/ -ltermcap $(OBJ) -o $(NAME)
+			$(CC) $(CFLAGS) -Llibft -lft -lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1/lib/ -ltermcap $(OBJ) -o $(NAME)
 
 bonus:
 
 %.o: %.c
-			$(CC) $(CFLAGS) -Iinclude -Ilibft -I/Users/signacia/.brew/Cellar/readline/8.1/include -c $< -o $@
+			$(CC) $(CFLAGS) -Iinclude -Ilibft -I/Users/${USER}/.brew/Cellar/readline/8.1/include -c $< -o $@
 
 include		$(wildcard *.d)
 
@@ -28,7 +29,7 @@ readline:
 			brew install readline
 
 readline_uninstall:
-			brew uninstall readline		
+			brew uninstall readline
 
 clean:
 			rm -rf *.o *.d

@@ -25,4 +25,7 @@ typedef struct s_shell
 char	*single_quote(char *input, int *i);
 char	*double_quote(t_shell *minishell, int *i);
 char	*dollar(t_shell *minishell, int *i);
+
+// Prochell
+char	***get_envp(char **env);
 #endif
