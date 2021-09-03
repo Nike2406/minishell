@@ -1,4 +1,4 @@
-NAME 		= philo
+NAME 		= minishell
 FLAGS		= -Wall -Wextra -Werror
 CFLAGS		= $(FLAGS) -I. -g
 CC			= gcc
