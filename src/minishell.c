@@ -50,7 +50,8 @@ int	main(int argc, char **argv, char **envp)
         if (!(minishell.input))
             input_eof();
 		if (ft_strlen(minishell.input) == 0)
-			printf("нужно удалить историю, если нулевая длина");
+			continue;
+			// printf("нужно удалить историю, если нулевая длина");
 		// if (minishell.input == "\n")
 		// 	printf("lol");
         add_history(minishell.input);
