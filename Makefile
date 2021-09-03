@@ -14,7 +14,7 @@ SRCS 		= src/philo.c \
 			src/philo_actions.c \
 			src/waitress.c \
 			src/errs.c
-#SRCS_BONUS	=
+#SRCS_BONUS	= 000
 INCLUDE		= philo.h
 
 .PHONY: all clean fclean re bonus norm
