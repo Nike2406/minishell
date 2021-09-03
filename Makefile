@@ -1,55 +1,43 @@
-NAME 		= minishell
-FLAGS		= -Wall -Wextra -Werror
-CFLAGS		= $(FLAGS) -I. -g
-CC			= gcc
+NAME   :=	minishell
+SRC    :=	minishell.c signal_handler.c single_quote.c
+OBJ    :=	$(SRC:.c=.o)
+HDR    :=	minishell.h
+CC     :=	gcc
+CFLAGS :=	-Wall -Wextra -Werror -MMD
+VPATH  :=	src include
 
-ifeq ($(MAKECMDGOALS),bonus)
-	OBJS = $(SRCS_BONUS:%.c=%.o)
-else
-	OBJS = $(SRCS:%.c=%.o)
-endif
+all:		$(NAME)
 
-SRCS 		= src/philo.c \
-			src/utils.c \
-			src/philo_actions.c \
-			src/waitress.c \
-			src/errs.c
-#SRCS_BONUS	=
-INCLUDE		= philo.h
+# -lreadline - readline, add_history
+# -ltermcap - tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
+$(NAME):	$(OBJ)
+			$(MAKE) -C libft
+			$(CC) $(CFLAGS) -Llibft -lft -lreadline -L/Users/signacia/.brew/Cellar/readline/8.1/lib/ -ltermcap $(OBJ) -o $(NAME)
 
-.PHONY: all clean fclean re bonus norm
+bonus:
 
-.o: .c $(INCLUDE)
-	$(CC) $(CFLAGS) $< -o $@
+%.o: %.c
+			$(CC) $(CFLAGS) -Iinclude -Ilibft -I/Users/signacia/.brew/Cellar/readline/8.1/include -c $< -o $@
 
-all: $(NAME)
+include		$(wildcard *.d)
 
-sound:
-	@say -v Yuri "Поехали, ща скопилю тебе брат"
+test:		test.c
+			${CC} ${CFLAGS} test.c
 
-${NAME}: $(OBJS) $(INCLUDE)
+readline:
+			brew install readline
 
-	$(CC) $(OBJS) -o $(NAME)
-#	@say -v Yuri "Готово, братуха ежжи"
-	@echo ""
-	@echo 🥴🤢🤮😵
-	@echo ""
-
-bonus: libft $(NAME)
-
-norm:
-	norminette $(SRCS)
-#	norminette $(SRCS_BONUS)
-	norminette $(INCLUDE)
+readline_uninstall:
+			brew uninstall readline		
 
 clean:
-	rm -f src/*.o
+			rm -rf *.o *.d
+			$(MAKE) clean -C libft
 
-fclean: clean
-	rm -f $(NAME)
-	rm -rf a.out*
-	rm -rf */a.out*
-	rm -rf *.gch
-	rm -rf */*.gch
+fclean:		clean
+			rm -rf $(NAME)
+			$(MAKE) fclean -C libft
 
-re: fclean all
+re:			fclean all
+
+.PHONY:		all clean fclean re bonus readline readline_uninstall
