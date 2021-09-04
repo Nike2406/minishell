@@ -8,13 +8,10 @@
 			"name": "(lldb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/philo_bonus/philo_bonus",
-            "args": [
-				"5",
-				"100",
-				"60",
-				"60"
-			],
+            "program": "${workspaceFolder}/minishell",
+            // "args": [
+			// 	"1"
+			// ],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

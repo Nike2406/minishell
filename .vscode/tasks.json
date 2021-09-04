@@ -9,12 +9,12 @@
                 "-Wall",
                 "-Werror",
                 "-Wextra",
-                "${workspaceFolder}/philo_bonus/*.h",
-                "${workspaceFolder}/philo_bonus/libft/*.h",
-                "${workspaceFolder}/philo_bonus/libft/*.c",
-                "${workspaceFolder}/philo_bonus/src/*.c",
-                "${workspaceFolder}/philo_bonus/get_next_line/*.c",
-                "${workspaceFolder}/philo_bonus/get_next_line/*.h"
+                "${workspaceFolder}/include/*.h",
+                "${workspaceFolder}/libft/*.h",
+                "${workspaceFolder}/libft/*.c",
+                "${workspaceFolder}/src/*.c",
+                "${workspaceFolder}/get_next_line/*.c",
+                "${workspaceFolder}/get_next_line/*.h"
             ],
             "options": {
                 "cwd": "${fileDirname}"

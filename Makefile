@@ -1,5 +1,6 @@
 NAME	= minishell
-SRC		= minishell.c signal_handler.c single_quote.c env.c
+SRC		= minishell.c signal_handler.c single_quote.c env.c \
+		lst_functions.c
 OBJ		= $(SRC:.c=.o)
 HDR		= minishell.h
 CC		= gcc

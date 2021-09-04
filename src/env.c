@@ -6,29 +6,26 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/04 00:36:29 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/04 19:09:01 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	***get_envp(char **env)
+void	get_envp(char **env)
 {
-	char	***tmp;
+	char	**tmp;
+	t_envp	*environment;
 
-	tmp = NULL;
+	environment = NULL;
 	printf("%s", env[2]);
+	int i;
+	i = 0;
+	while (env[i])
+	{
+		tmp = ft_split(env[i], '=');
+		ft_lstadd_back_minishell(&environment, ft_lstnew_minishell(tmp[0], tmp[1]));
+		i++;
+	}
 
-	// int i;
-	// int j;
-	// int	m;
-	// i = 0;
-	// while (env[i])
-	// {
-	// 	j = 0;
-	// 	while (env[i][j])
-	// 		tmp[i][j] = env[i][j];
-	// }
-
-	return (tmp);
 }
