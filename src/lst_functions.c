@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 18:26:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/04 18:55:39 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/04 19:31:33 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new)
 		*lst = new;
 		return ;
 	}
-	tmp = ft_lstlast_ps(*lst);
+	tmp = ft_lstlast_minishell(*lst);
 	new->prev = tmp;
 	tmp->next = new;
 }
@@ -63,6 +63,7 @@ t_envp	*ft_lstnew_minishell(char *key, char *value)
 	nel->key = key;
 	nel->value = value;
 	nel->next = NULL;
+	nel->prev = NULL;
 	return (nel);
 }
 

@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/04 00:29:01 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/04 19:36:43 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,29 +52,38 @@ void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	// t_shell	minishell;
-	// char	***environment;
+	t_shell	minishell;
+	t_envp	*environment;
 
 	// Добавил парсер окружения
-	(void)argc;
-	(void)argv;
-	// environment = get_envp(envp);
-	get_envp(envp);
+	// Start
+	environment = NULL;
+	get_envp(envp, &environment);
 
-	// initialization(&minishell, argc, argv, envp);
-	// while (1)
+	// // Check env
+	// t_envp	*env_tmp;
+	// env_tmp = environment;
+	// while (env_tmp != NULL)
 	// {
-	// 	minishell.input = readline("minishell$ ");
-	// 	if (!(minishell.input))
-	// 		input_eof();
-	// 	if (ft_strlen(minishell.input) == 0)
-	// 		continue;
-	// 		// printf("нужно удалить историю, если нулевая длина");
-	// 	// if (minishell.input == "\n")
-	// 	// 	printf("lol");
-	// 	add_history(minishell.input);
-	// 	parser(&minishell);
-
-
+	// 	printf("key = %s, value = %s\n", env_tmp->key, env_tmp->value);
+	// 	env_tmp = env_tmp->next;
 	// }
+	// End
+
+	initialization(&minishell, argc, argv, envp);
+	while (1)
+	{
+		minishell.input = readline("minishell$ ");
+		if (!(minishell.input))
+			input_eof();
+		if (ft_strlen(minishell.input) == 0)
+			continue;
+			// printf("нужно удалить историю, если нулевая длина");
+		// if (minishell.input == "\n")
+		// 	printf("lol");
+		add_history(minishell.input);
+		parser(&minishell);
+
+
+	}
 }

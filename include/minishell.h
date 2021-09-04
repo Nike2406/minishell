@@ -13,8 +13,8 @@
 
 typedef struct s_envp
 {
-	 char			**key;
-	 char			**value;
+	 char			*key;
+	 char			*value;
 	struct s_envp	*next;
 	struct s_envp	*prev;
 }	t_envp;
@@ -36,7 +36,7 @@ char	*double_quote(t_shell *minishell, int *i);
 char	*dollar(t_shell *minishell, int *i);
 
 // Prochell
-void	get_envp(char **env);
+void	get_envp(char **env, t_envp **environment);
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
 t_envp	*ft_lstlast_minishell(t_envp *lst);
