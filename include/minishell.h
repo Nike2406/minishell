@@ -15,7 +15,7 @@ typedef struct s_shell
 {
 	char	*input; // считанная строка
 	char	**envp;	// env
-	int		child_exit_status; // для #?
+	int		child_exit_status; // для $?
 
 // 		junk
 	int		argc;

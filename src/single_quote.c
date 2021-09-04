@@ -35,7 +35,8 @@ char	*double_quote(t_shell *minishell, int *i)
 	{
 		if (minishell->input[*i] == '\"')
 			break ;
-		if (minishell->input[*i] == '$')
+		else if (minishell->input[*i] == '$'
+				&& minishell->input[*i + 1] != '\"')
 			minishell->input = dollar(minishell, i);
 	}
 	tmp = ft_substr(minishell->input, 0, j);
@@ -74,7 +75,8 @@ char	*dollar(t_shell *minishell, int *i)
 		*i -= 1;
 		return (minishell->input);
 	}
-	if (ft_isdigit(minishell->input[*i]))
+	if (ft_isdigit(minishell->input[*i]) || minishell->input[*i] == '\''
+		|| minishell->input[*i] == '\"')
 	{
 		tmp = ft_substr(minishell->input, 0, j);
 		tmp2 = ft_strdup(minishell->input + *i + 1);
@@ -83,14 +85,19 @@ char	*dollar(t_shell *minishell, int *i)
 		*i -= 2;
 		return (tmp);
 	}
-	while (minishell->input[*i] != 0 && (ft_isalnum(minishell->input[*i])
-			|| minishell->input[*i] == '_'))
+	while (ft_isalnum(minishell->input[*i]) || minishell->input[*i] == '_')
 	{
 		(*i)++;
 	}
 	tmp = ft_substr(minishell->input, 0, j);
-	tmp2 = ft_substr(minishell->input, j + 1, *i - j - 1); //заменить env'ом
-	tmp3 = ft_strdup(minishell->input + *i + 1);
-	printf("tmp1=[%s] tmp2=[%s] tmp3=[%s]\n", tmp, tmp2, tmp3);
-	return (minishell->input);
+	tmp2 = ft_substr(minishell->input, j + 1, *i - j - 1); //ЗАМЕНИТЬ env'ОМ!
+	// Также нужен будет сдвиг *i
+	tmp3 = ft_strdup(minishell->input + *i);
+	//printf("Inside tmp1=[%s] tmp2=[%s] tmp3=[%s]\n", tmp, tmp2, tmp3);
+	tmp2 = ft_strjoin_free(tmp2, tmp3);
+	tmp = ft_strjoin_free(tmp, tmp2);
+	free(minishell->input);
+	*i -= 2;
+	//printf("Inside 2 %s %c\n", tmp, tmp[*i]);
+	return (tmp);
 }

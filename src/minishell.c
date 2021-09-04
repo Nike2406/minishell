@@ -13,13 +13,13 @@ void	parser(t_shell *minishell)
 	i = -1;
 	while (minishell->input[++i])
 	{
-		if (minishell->input[i] == '\'')
+		if (minishell->input[i] == '$')
+			minishell->input = dollar(minishell, &i);
+		else if (minishell->input[i] == '\'')
 			minishell->input = single_quote(minishell->input, &i);
 		else if (minishell->input[i] == '\"')
-		{
 			minishell->input = double_quote(minishell, &i);
-//			printf("%s\n", minishell->input + i);
-		}
+		
 	}
 		printf("%s\n", minishell->input);
 	free(minishell->input);
@@ -44,19 +44,18 @@ int	main(int argc, char **argv, char **envp)
 
 
 	initialization(&minishell, argc, argv, envp);
-    while (1)
-    {
-        minishell.input = readline("minishell$ ");
-        if (!(minishell.input))
-            input_eof();
+	while (1)
+	{
+		minishell.input = readline("minishell$ ");
+		if (!(minishell.input))
+			input_eof();
 		if (ft_strlen(minishell.input) == 0)
 			continue;
-			// printf("нужно удалить историю, если нулевая длина");
 		// if (minishell.input == "\n")
 		// 	printf("lol");
-        add_history(minishell.input);
+		add_history(minishell.input);
 		parser(&minishell);
 
 		
-    }
+	}
 }
