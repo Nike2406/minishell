@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/04 19:36:43 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/05 17:27:59 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ void	parser(t_shell *minishell)
 //			printf("%s\n", minishell->input + i);
 		}
 	}
+		// Prochell
+		// Start
+
+		if (get_pwd(minishell))
+			ft_error(PWD_ERR); // pwd: bad option: -I | pwd: too many arguments
+		// End
 		printf("%s\n", minishell->input);
 	free(minishell->input);
 }
@@ -59,6 +65,7 @@ int	main(int argc, char **argv, char **envp)
 	// Start
 	environment = NULL;
 	get_envp(envp, &environment);
+	minishell.environment = environment;
 
 	// // Check env
 	// t_envp	*env_tmp;

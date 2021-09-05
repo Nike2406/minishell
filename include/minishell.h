@@ -11,6 +11,10 @@
 # include <term.h> // tgetent
 # include <termios.h> // tcgetattr, tcsetattr
 
+# define PWD_ERR				1
+# define PWD_ERR_OVERWELMING	2
+# define PWD_ERR_BADOPT			3
+
 typedef struct s_envp
 {
 	 char			*key;
@@ -29,6 +33,7 @@ typedef struct s_shell
 // 		junk
 	int		argc;
 	char	**argv;
+	t_envp	*environment;
 }			t_shell;
 //void	sighandler(int sig);
 char	*single_quote(char *input, int *i);
@@ -42,5 +47,8 @@ void	ft_lstclear_minishell(t_envp **lst);
 t_envp	*ft_lstlast_minishell(t_envp *lst);
 t_envp	*ft_lstnew_minishell(char *key, char *value);
 int		ft_lstsize_ps(t_envp *lst);
+int		get_pwd(t_shell *minishell);
+
+int		ft_error(int i);
 
 #endif
