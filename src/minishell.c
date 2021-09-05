@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/05 17:36:52 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/05 18:22:19 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	parser(t_shell *minishell)
 		// Start
 		if (get_pwd(minishell))
 			return ; // pwd: bad option: -I | pwd: too many arguments
+		else if (get_echo(minishell))
+			return ;
 		// End
 		printf("%s\n", minishell->input);
 	free(minishell->input);
