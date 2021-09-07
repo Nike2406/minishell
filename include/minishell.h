@@ -47,9 +47,9 @@ char	*dollar(t_shell *minishell, int *i);
 
 // Prochell
 // Start
-void	get_envp(char **env, t_envp **environment);
-int		get_pwd(t_shell *minishell);
-int		get_echo(t_shell *minishell);
+void	get_envp(char **env, t_shell *minishell);
+int		get_pwd(t_shell *minishell, char **str);
+int		get_echo(char **args);
 
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);

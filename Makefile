@@ -1,10 +1,10 @@
 NAME	= minishell
 SRC		= minishell.c signal_handler.c single_quote.c env.c \
-		lst_functions.c pwd.c errors.c echo.c
+		lst_functions.c pwd.c errors.c echo.c cd.c
 OBJ		= $(SRC:.c=.o)
 HDR		= minishell.h
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror -MMD
+CFLAGS	= -Wall -Wextra -Werror -g -MMD
 VPATH	= src include
 USER	= prochell
 

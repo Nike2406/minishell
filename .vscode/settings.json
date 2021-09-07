@@ -1,9 +1,0 @@
-{
-	"files.associations": {
-		"algorithm": "c",
-		"fdf.h": "c",
-		"__locale": "c",
-		"__bit_reference": "c",
-		"philo.h": "c"
-	}
-}

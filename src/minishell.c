@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/05 18:22:19 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/07 15:30:08 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ void	parser(t_shell *minishell)
 	}
 		// Prochell
 		// Start
-		if (get_pwd(minishell))
-			return ; // pwd: bad option: -I | pwd: too many arguments
-		else if (get_echo(minishell))
+		char	**tmp; // временный массив для проверки builtins
+
+		tmp = ft_split(minishell->input, ' '); // подача двойного массива
+		if (get_pwd(minishell, tmp) < 1)
+			return ;
+		else if (get_echo(tmp) < 1)
 			return ;
 		// End
 		printf("%s\n", minishell->input);
@@ -60,17 +63,14 @@ void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell	minishell;
-	t_envp	*environment;
 
 	// Добавил парсер окружения
 	// Start
-	environment = NULL;
-	get_envp(envp, &environment);
-	minishell.environment = environment;
+	get_envp(envp, &minishell);
 
 	// // Check env
 	// t_envp	*env_tmp;
-	// env_tmp = environment;
+	// env_tmp = minishell.environment;
 	// while (env_tmp != NULL)
 	// {
 	// 	printf("key = %s, value = %s\n", env_tmp->key, env_tmp->value);
