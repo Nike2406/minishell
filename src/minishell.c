@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/07 20:02:02 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/08 22:08:16 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	parser(t_shell *minishell)
 		else if (get_cd(minishell, tmp) < 1)
 			return ;
 		// End
-		printf("%s\n", minishell->input);
+		// printf("%s\n", minishell->input);
 	free(minishell->input);
 }
 

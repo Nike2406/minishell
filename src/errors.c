@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:53:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/07 21:34:37 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/08 22:44:10 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,18 @@ int	ft_error_pwd(int i)
 
 int	ft_error_cd(int i)
 {
-	if (i == PWD_ERR)
+	if (i == CD_ERR)
 		printf("CD error\n");
-	else if (i == PWD_ERR_OVERWELMING)
-		printf("cd: string not in pwd: ..\n");
+	else if (i == CD_CHDIR)
+		printf("cd: CHDIR error\n");
+	else if (i == CD_CWD)
+		printf("cd: CWD error\n");
 	return(1);
+}
+
+int	ft_error_cd_no_file(int i, char *str)
+{
+	if (i == CD_NO_FILE)
+		printf("cd: %s: No such file or directory\n", str);
+	return (1);
 }

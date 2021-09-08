@@ -20,6 +20,8 @@
 # define PWD_ERR_OVERWELMING	2
 # define CD_ERR					1
 # define CD_NO_FILE				2
+# define CD_CHDIR				3
+# define CD_CWD					4
 // End
 
 typedef struct s_envp
@@ -66,6 +68,7 @@ int		ft_lstsize_ps(t_envp *lst);
 
 int		ft_error_pwd(int i);
 int		ft_error_cd(int i);
+int		ft_error_cd_no_file(int i, char *str);
 // End
 
 #endif

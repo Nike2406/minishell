@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/08 20:28:39 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/08 22:47:10 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,34 @@ void	change_oldpwd(t_shell *minishell, char *str)
 		tmp = tmp->next;
 	}
 }
+void	change_newpwd(t_shell *minishell, char *str)
+{
+	t_envp	*tmp;
+
+	tmp = minishell->environment;
+	while (tmp)
+	{
+		if (!ft_strncmp("PWD", tmp->key, 4))
+			tmp->value = str;
+		tmp = tmp->next;
+	}
+}
+
+void	cd_get_home(t_shell *minishell)
+{
+	t_envp	*tmp;
+	char	*str;
+
+	tmp = minishell->environment;
+	while (tmp)
+	{
+		if (!ft_strncmp("HOME", tmp->key, 5))
+			str = tmp->value;
+		tmp = tmp->next;
+	}
+	change_oldpwd(minishell, find_pwd(minishell));
+	change_newpwd(minishell, str);
+}
 
 int	parse_cd(char **str)
 {
@@ -75,19 +103,44 @@ int	parse_cd(char **str)
 int	get_cd(t_shell *minishell, char **str)
 {
 	char	*oldpwd;
+	char	*newpwd;
 	char	tmp[256];
+	// (void)minishell;
 
 	if (!ft_strncmp("cd", str[0], 3))
 	{
 		// parse_cd(str);
-		chdir("/Users/prochell/projects");
+		if (!str[1])
+			return (1);
 
-		oldpwd = getcwd(tmp, sizeof(tmp));// find_pwd(minishell);
+		// check
+		if (!ft_strncmp("env", str[1], 4))
+		{
+			check_pwd(minishell);
+			return (0);
+		}
+
+		if (!ft_strncmp("~", str[1], 2))
+		{
+			cd_get_home(minishell);
+			return (0);
+		}
+		if (chdir(str[1]) != 0)
+			return (ft_error_cd_no_file(CD_NO_FILE, str[1]));
+		oldpwd = find_pwd(minishell);
+		newpwd = getcwd(tmp, sizeof(tmp));// find_pwd(minishell);
+		if (newpwd == NULL)
+			return (ft_error_cd(CD_CWD));
 		change_oldpwd(minishell, oldpwd);
+		change_newpwd(minishell, newpwd);
+
+		// printf("%s\n", oldpwd);
+		// change_oldpwd(minishell, oldpwd);
+		// printf("%s\n", tmp);
 		// printf("HI here is: %s\n", oldpwd);
 		// change_oldpwd(minishell, oldpwd);
-		execlp("env", "env", NULL);
-		// check_pwd(minishell);
+		// execlp("env", "env", NULL);
+
 		return (0);
 	}
 	return (1);
