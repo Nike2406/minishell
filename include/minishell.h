@@ -13,8 +13,13 @@
 
 // Prochell
 // Start
+#include <sys/types.h>
+#include <dirent.h>
+
 # define PWD_ERR				1
 # define PWD_ERR_OVERWELMING	2
+# define CD_ERR					1
+# define CD_NO_FILE				2
 // End
 
 typedef struct s_envp
@@ -50,6 +55,8 @@ char	*dollar(t_shell *minishell, int *i);
 void	get_envp(char **env, t_shell *minishell);
 int		get_pwd(t_shell *minishell, char **str);
 int		get_echo(char **args);
+int		echo_check_flag(char *str);
+int		get_cd(t_shell *minishell, char **str);
 
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
@@ -58,6 +65,7 @@ t_envp	*ft_lstnew_minishell(char *key, char *value);
 int		ft_lstsize_ps(t_envp *lst);
 
 int		ft_error_pwd(int i);
+int		ft_error_cd(int i);
 // End
 
 #endif

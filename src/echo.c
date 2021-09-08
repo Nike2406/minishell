@@ -6,28 +6,47 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 18:22:26 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/07 15:07:48 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/08 16:23:19 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	echo_check_flag(char *str)
+{
+	int	j;
+
+	j = 2;
+	if (str[0] == '-' && str[1] == 'n')
+	{
+		if (!str[j + 1])
+			return (1);
+		while (str[j])
+		{
+			if (str[j] != 'n')
+				return (0);
+			else
+				if (!str[j + 1])
+					return (1);
+			j++;
+		}
+	}
+	return (0);
+}
 
 int	get_echo(char **args)
 {
 	int	i;
 	int	n;
 
-	n = 0;
 	i = 1;
-	if (!ft_strncmp("echo", args[0], 6))
+	if (!ft_strncmp("echo", args[0], 5))
 	{
 		if (args[1] == NULL)
 			return (1);
-		if (!ft_strncmp("-n", args[1], 3))
-		{
-			n = 1;
+		n = echo_check_flag(args[1]);
+		if (n)
 			i++;
-		}
 		while (args[i])
 		{
 			ft_putstr(args[i]);
