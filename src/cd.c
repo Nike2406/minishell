@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/08 22:47:10 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/08 23:18:33 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	cd_get_home(t_shell *minishell)
 	}
 	change_oldpwd(minishell, find_pwd(minishell));
 	change_newpwd(minishell, str);
+	chdir(str);
 }
 
 int	parse_cd(char **str)
@@ -110,21 +111,21 @@ int	get_cd(t_shell *minishell, char **str)
 	if (!ft_strncmp("cd", str[0], 3))
 	{
 		// parse_cd(str);
-		if (!str[1])
-			return (1);
-
-		// check
-		if (!ft_strncmp("env", str[1], 4))
-		{
-			check_pwd(minishell);
-			return (0);
-		}
-
-		if (!ft_strncmp("~", str[1], 2))
+		// if (!str[1])
+		// 	return (1);
+		if (!str[1] || !ft_strncmp("~", str[1], 2))
 		{
 			cd_get_home(minishell);
 			return (0);
 		}
+
+		// check
+		// if (!ft_strncmp("env", str[1], 4))
+		// {
+		// 	check_pwd(minishell);
+		// 	return (0);
+		// }
+
 		if (chdir(str[1]) != 0)
 			return (ft_error_cd_no_file(CD_NO_FILE, str[1]));
 		oldpwd = find_pwd(minishell);
