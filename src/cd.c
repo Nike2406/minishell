@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/08 23:18:33 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/12 22:22:49 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	change_oldpwd(t_shell *minishell, char *str)
 	while (tmp)
 	{
 		if (!ft_strncmp("OLDPWD", tmp->key, 7))
+		{
 			tmp->value = str;
+			return ;
+		}
 		tmp = tmp->next;
 	}
 }
@@ -59,7 +62,10 @@ void	change_newpwd(t_shell *minishell, char *str)
 	while (tmp)
 	{
 		if (!ft_strncmp("PWD", tmp->key, 4))
+		{
 			tmp->value = str;
+			return ;
+		}
 		tmp = tmp->next;
 	}
 }
@@ -78,28 +84,32 @@ void	cd_get_home(t_shell *minishell)
 	}
 	change_oldpwd(minishell, find_pwd(minishell));
 	change_newpwd(minishell, str);
-	chdir(str);
-}
-
-int	parse_cd(char **str)
-{
-	int	i;
-	int	j;
-	char	**tmp;
-
-	i = 0;
-	j = 0;
-	tmp = ft_split(str[1], '/');
-	while (tmp[i])
+	if (chdir(str) != 0)
 	{
-		if (!ft_strncmp(tmp[i], "..", 3))
-			j++;
-		else
-			ft_error_cd(CD_NO_FILE);
-		i++;
+		ft_error_cd_no_file(CD_NO_FILE, str);
+		return ;
 	}
-	return (i);
 }
+
+// int	parse_cd(char **str)
+// {
+// 	int	i;
+// 	int	j;
+// 	char	**tmp;
+
+// 	i = 0;
+// 	j = 0;
+// 	tmp = ft_split(str[1], '/');
+// 	while (tmp[i])
+// 	{
+// 		if (!ft_strncmp(tmp[i], "..", 3))
+// 			j++;
+// 		else
+// 			ft_error_cd(CD_NO_FILE);
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 int	get_cd(t_shell *minishell, char **str)
 {

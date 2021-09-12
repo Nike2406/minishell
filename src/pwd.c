@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:28:21 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/08 23:10:04 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/12 21:54:53 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	get_pwd(t_shell *minishell, char **str)
 	if (!ft_strncmp("pwd", str[0], 4))
 	 {
 		printf("%s\n", getcwd(tmp, sizeof(tmp)));// find_pwd(minishell);
+		return (0);
 	 }
 	// t_envp	*tmp_env;
 
