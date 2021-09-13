@@ -6,24 +6,24 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/12 22:22:49 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/13 15:45:09 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_pwd(t_shell *minishell)
-{
-	// Check env
-	t_envp	*env_tmp;
-	env_tmp = minishell->environment;
-	while (env_tmp != NULL)
-	{
-		printf("key = %s, value = %s\n", env_tmp->key, env_tmp->value);
-		env_tmp = env_tmp->next;
-	}
-	// End
-}
+// void	check_pwd(t_shell *minishell)
+// {
+// 	// Check env
+// 	t_envp	*env_tmp;
+// 	env_tmp = minishell->environment;
+// 	while (env_tmp != NULL)
+// 	{
+// 		printf("key = %s, value = %s\n", env_tmp->key, env_tmp->value);
+// 		env_tmp = env_tmp->next;
+// 	}
+// 	// End
+// }
 
 char	*find_pwd(t_shell *minishell)
 {
@@ -48,6 +48,8 @@ void	change_oldpwd(t_shell *minishell, char *str)
 	{
 		if (!ft_strncmp("OLDPWD", tmp->key, 7))
 		{
+			printf("str = %s ", str);
+			printf("key = %s\n", tmp->key);
 			tmp->value = str;
 			return ;
 		}
@@ -115,7 +117,7 @@ int	get_cd(t_shell *minishell, char **str)
 {
 	char	*oldpwd;
 	char	*newpwd;
-	char	tmp[256];
+	// char	*tmp;
 	// (void)minishell;
 
 	if (!ft_strncmp("cd", str[0], 3))
@@ -136,12 +138,22 @@ int	get_cd(t_shell *minishell, char **str)
 		// 	return (0);
 		// }
 
+		// oldpwd = find_pwd(minishell);
+		oldpwd = getcwd(NULL, 0);
+		if (oldpwd == NULL)
+			return (ft_error_cd(CD_CWD));
 		if (chdir(str[1]) != 0)
 			return (ft_error_cd_no_file(CD_NO_FILE, str[1]));
-		oldpwd = find_pwd(minishell);
-		newpwd = getcwd(tmp, sizeof(tmp));// find_pwd(minishell);
+
+		// tmp = malloc(ft_strlen(oldpwd) + 1024);
+		// if (!tmp)
+		// 	return (1);
+		printf("old = %s\n", oldpwd);
+		newpwd = getcwd(NULL, 0);// find_pwd(minishell);
 		if (newpwd == NULL)
 			return (ft_error_cd(CD_CWD));
+		// free(tmp);
+		printf("new = %s\n", newpwd);
 		change_oldpwd(minishell, oldpwd);
 		change_newpwd(minishell, newpwd);
 
