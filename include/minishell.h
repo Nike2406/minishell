@@ -63,6 +63,7 @@ int		get_cd(t_shell *minishell, char **str);
 int		get_env(t_shell *minishell, char **str);
 char	*find_pwd(t_shell *minishell, char *str);
 void	change_old_new_pwd(t_shell *minishell, char *str, char *key);
+int		get_export(t_shell *minishell, char **str);
 
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
