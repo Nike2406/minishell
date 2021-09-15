@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/13 14:34:15 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/15 15:43:50 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,7 @@ void	parser(t_shell *minishell)
 		else if (get_echo(tmp) < 1)
 			return ;
 		else if (get_cd(minishell, tmp) < 1)
-		{
-			// char *tmp1 = find_pwd(minishell);
-			// printf("вне %s\n", tmp1);
 			return ;
-		}
 		else if (get_env(minishell, tmp) < 1)
 			return ;
 		// End
@@ -89,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	initialization(&minishell, argc, argv, envp);
 	while (1)
 	{
-		minishell.input = readline("minishell$ ");
+		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
 		if (!(minishell.input))
 			input_eof();
 		if (ft_strlen(minishell.input) == 0)
