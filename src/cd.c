@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/15 15:41:39 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/15 16:25:16 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	cd_swap(t_shell *minishell, char **str)
 			tmp = find_pwd(minishell, "OLDPWD");
 			change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 			change_old_new_pwd(minishell, tmp, "PWD");
+			if (chdir(tmp) != 0)
+			{
+				ft_error_cd_no_file(CD_NO_FILE, tmp);
+				return ;
+			}
 		}
 	i++;
 	}
