@@ -30,7 +30,7 @@ typedef struct s_envp
 	 char			*key;
 	 char			*value;
 	struct s_envp	*next;
-	struct s_envp	*prev;
+	// struct s_envp	*prev;
 }	t_envp;
 
 

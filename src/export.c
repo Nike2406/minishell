@@ -6,24 +6,24 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/30 15:54:53 by prochell         ###   ########.fr       */
+/*   Updated: 2021/09/30 16:55:08 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	ft_lst_swap(t_envp *swap, t_shell *minishell)
-// {
-// 	t_envp	tmp_next;
-// 	t_envp	tmp_prev;
-// 	t_envp	max_prev;
-// 	t_envp	max_prev;
+void	ft_lst_swap(t_envp *swap)
+{
+	t_envp	first;
+	t_envp	second;
+	t_envp	third;
+	t_envp	fourth;
 
-// 	tmp_next =
-// 	tmp_prev =
-// 	max_prev =
-// 	max_prev =
-// }
+	tmp_next =
+	tmp_prev =
+	max_prev =
+	max_prev =
+}
 
 
 int		get_export(t_shell *minishell, char **str)
@@ -35,14 +35,17 @@ int		get_export(t_shell *minishell, char **str)
 	{
 		tmp_env = minishell->environment;
 		cont = 0;
+		printf("=============================================\n");
+		check_list(tmp_env);
+		printf("=============================================\n");
 		while (tmp_env)
 		{
-			if (!tmp_env->key || tmp_env->next->key)
+			if (!tmp_env->next->key)
 				break;
-			if (ft_strcmp(tmp_env->key, tmp_env->next->key) < 0)
+			if (ft_strcmp(tmp_env->key, tmp_env->next->key) > 0)
 			{
-				// ft_lst_swap(tmp_env, minishell);
-				printf("Here is export\n");
+				ft_lst_swap(tmp_env);
+				// printf("Here is export\n");
 				cont++;
 			}
 			tmp_env = tmp_env->next;
@@ -50,7 +53,7 @@ int		get_export(t_shell *minishell, char **str)
 		if (!cont)
 			return (0);
 		get_export(minishell, str);
-		printf("Here is export\n");
+		// printf("Here is export\n");
 	}
 	return (1);
 }
