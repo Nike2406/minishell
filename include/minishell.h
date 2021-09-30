@@ -18,6 +18,7 @@
 
 # define PWD_ERR				1
 # define PWD_ERR_OVERWELMING	2
+
 # define CD_ERR					1
 # define CD_NO_FILE				2
 # define CD_CHDIR				3
@@ -74,6 +75,8 @@ int		ft_lstsize_ps(t_envp *lst);
 int		ft_error_pwd(int i);
 int		ft_error_cd(int i);
 int		ft_error_cd_no_file(int i, char *str);
+
+void	check_list(t_envp *list); // check, need to remove!
 // End
 
 #endif
