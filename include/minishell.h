@@ -30,7 +30,7 @@ typedef struct s_envp
 	 char			*key;
 	 char			*value;
 	struct s_envp	*next;
-	// struct s_envp	*prev;
+	struct s_envp	*prev;
 }	t_envp;
 
 
@@ -71,6 +71,7 @@ void	ft_lstclear_minishell(t_envp **lst);
 t_envp	*ft_lstlast_minishell(t_envp *lst);
 t_envp	*ft_lstnew_minishell(char *key, char *value);
 int		ft_lstsize_ps(t_envp *lst);
+t_envp	*ft_lstfirst_minishell(t_envp *lst);
 
 int		ft_error_pwd(int i);
 int		ft_error_cd(int i);
