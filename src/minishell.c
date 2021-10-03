@@ -6,23 +6,32 @@ void	input_eof(void)
 	exit(0);
 }
 
-void	parser(t_shell *minishell)
+void	minishell_parser(t_shell *minishell)
 {
 	int	i;
 
-	i = -1;
-	while (minishell->input[++i])
+	i = 0;
+	minishell->apps = (t_prog *)malloc(sizeof(t_prog));
+	minishell->apps->argc = 0;
+	minishell->apps->argv = NULL;
+	minishell->apps->next = NULL;
+	
+	if (minishell->input[i] == ' ' || minishell->input[i] == '\t')
+			minishell->input = space_cut_begin(minishell);
+	while (minishell->input)
 	{
 		if (minishell->input[i] == '$')
 			minishell->input = dollar(minishell, &i);
 		else if (minishell->input[i] == '\'')
-			minishell->input = single_quote(minishell->input, &i);
+			minishell->input = single_quote(minishell, &i);
 		else if (minishell->input[i] == '\"')
 			minishell->input = double_quote(minishell, &i);
-		
+		else if (minishell->input[i] == ' ' || minishell->input[i] == '\t'
+				|| minishell->input[i] == 0)
+			minishell->input = space_cut(minishell, &i);
+		i++;
 	}
-		printf("%s\n", minishell->input);
-	free(minishell->input);
+	// printf("%s\n", minishell->input);
 }
 
 void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
@@ -50,12 +59,13 @@ int	main(int argc, char **argv, char **envp)
 		if (!(minishell.input))
 			input_eof();
 		if (ft_strlen(minishell.input) == 0)
+		{
+			free(minishell.input);
 			continue;
-		// if (minishell.input == "\n")
-		// 	printf("lol");
+		}
 		add_history(minishell.input);
-		parser(&minishell);
-
-		
+		minishell_parser(&minishell);
+		minishell_executor(&minishell);
+		garbage_collector(&minishell);
 	}
 }

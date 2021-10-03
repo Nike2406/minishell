@@ -1,5 +1,7 @@
 NAME   :=	minishell
-SRC    :=	minishell.c signal_handler.c single_quote.c
+SRC    :=	minishell.c signal_handler.c quotes_handler.c \
+			dollar_handler.c split_handler.c minis_exec.c \
+			garbage_collector.c
 OBJ    :=	$(SRC:.c=.o)
 HDR    :=	minishell.h
 CC     :=	gcc
@@ -22,7 +24,7 @@ bonus:
 include		$(wildcard *.d)
 
 test:		test.c
-			${CC} ${CFLAGS} test.c
+			${CC} ${CFLAGS} -Llibft -lft test.c
 
 readline:
 			brew install readline
