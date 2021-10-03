@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/02 22:12:21 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/03 21:18:57 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ void	ft_lst_swap(t_envp **swap)
 	t_envp	*third;
 
 	second = NULL;
-	if (!(*swap)->prev)
+	if (!(*swap)->next->next)
+	{
+		*swap = ft_lstfirst_minishell(*swap);
+	}
+	else if (!(*swap)->prev)
 	{
 		if ((*swap) == NULL || (*swap)->next == NULL)
 			return ;
@@ -34,17 +38,13 @@ void	ft_lst_swap(t_envp **swap)
 		second->next = first;
 		*swap = second;
 	}
-	else if (!(*swap)->next->next)
-	{
-		*swap = ft_lstfirst_minishell(*swap);
-	}
 	else
 	{
 		zero = (*swap)->prev;
 		first = *swap;
 		first->prev = (*swap)->next;
-		zero->next = second;
 		second = first->next;
+		zero->next = second;
 		third = second->next;
 		third->prev = first;
 		second->prev = zero;
@@ -59,7 +59,7 @@ int	sort_export(t_envp *tmp_env)
 	int		cont;
 
 	cont = 0;
-	while (tmp_env->next)
+	while (tmp_env->next->next)
 	{
 		if (!tmp_env->next->key)
 			break;
@@ -71,7 +71,11 @@ int	sort_export(t_envp *tmp_env)
 		tmp_env = tmp_env->next;
 	}
 	if (!cont)
+	{
+		tmp_env = ft_lstfirst_minishell(tmp_env);
+		check_list(tmp_env);
 		return (0);
+	}
 	sort_export(tmp_env);
 	return (1);
 }
@@ -83,12 +87,12 @@ int		get_export(t_shell *minishell, char **str)
 	if (!ft_strncmp("export", str[0], 7))
 	{
 		tmp_env = minishell->environment;
-		sort_export(tmp_env);
-		if (!tmp_env)
+
+		if (!sort_export(tmp_env))
 		{
-			printf("=============================================\n");
-			check_list(tmp_env);
-			printf("=============================================\n");
+			// printf("=============================================\n");
+			// check_list(tmp_env);
+			// printf("=============================================\n");
 			return (0);
 		}
 		return (1);
