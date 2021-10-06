@@ -65,12 +65,17 @@ int		get_env(t_shell *minishell, char **str);
 char	*find_pwd(t_shell *minishell, char *str);
 void	change_old_new_pwd(t_shell *minishell, char *str, char *key);
 int		get_export(t_shell *minishell, char **str);
+int		sort_export(t_envp **tmp_env);
+void	ft_lst_swap_01(t_envp **swap);
+void	ft_lst_swap_02(t_envp **swap);
+void	ft_lst_swap_03(t_envp **swap);
+
 
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
 t_envp	*ft_lstlast_minishell(t_envp *lst);
 t_envp	*ft_lstnew_minishell(char *key, char *value);
-int		ft_lstsize_ps(t_envp *lst);
+int		ft_lstsize(t_envp *lst);
 t_envp	*ft_lstfirst_minishell(t_envp *lst);
 
 int		ft_error_pwd(int i);

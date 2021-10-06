@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 18:26:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/02 22:10:13 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/06 14:26:30 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_envp	*ft_lstnew_minishell(char *key, char *value)
 	return (nel);
 }
 
-int	ft_lstsize_ps(t_envp *lst)
+int	ft_lstsize(t_envp *lst)
 {
 	unsigned int	i;
 
