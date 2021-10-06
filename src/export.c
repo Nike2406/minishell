@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/06 15:26:22 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/06 19:46:26 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,8 @@ int	sort_export(t_envp **tmp_env)
 		while (j < list_size - i - 1)
 		{
 			if (ft_strcmp((*tmp_env)->key, (*tmp_env)->next->key) > 0)
-			{
 				ft_lst_swap_01(tmp_env);
-			}
-			(*tmp_env) = (*tmp_env)->next;
+			*tmp_env = (*tmp_env)->next;
 			j++;
 		}
 		i++;
@@ -110,13 +108,14 @@ int		get_export(t_shell *minishell, char **str)
 
 	if (!ft_strncmp("export", str[0], 7))
 	{
-		tmp_env = minishell->environment;
+		tmp_env = fullfill_env(minishell->environment);
 		if (!sort_export(&tmp_env))
 		{
 			check_list(tmp_env);
+			ft_lstclear_minishell(&tmp_env);
 			return (0);
 		}
-		return (1);
+		ft_lstclear_minishell(&tmp_env);
 	}
 	return (1);
 }

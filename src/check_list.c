@@ -7,7 +7,7 @@ void	check_list(t_envp *list)
 	tmp_lst = list;
 	while (tmp_lst)
 	{
-		printf("%s=%s\n", tmp_lst->key, tmp_lst->value);
+		printf("declare -x %s=%s\n", tmp_lst->key, tmp_lst->value);
 		tmp_lst = tmp_lst->next;
 	}
 }

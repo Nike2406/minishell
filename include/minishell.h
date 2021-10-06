@@ -66,6 +66,7 @@ char	*find_pwd(t_shell *minishell, char *str);
 void	change_old_new_pwd(t_shell *minishell, char *str, char *key);
 int		get_export(t_shell *minishell, char **str);
 int		sort_export(t_envp **tmp_env);
+t_envp	*fullfill_env(t_envp *env);
 void	ft_lst_swap_01(t_envp **swap);
 void	ft_lst_swap_02(t_envp **swap);
 void	ft_lst_swap_03(t_envp **swap);
