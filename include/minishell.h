@@ -23,6 +23,8 @@
 # define CD_NO_FILE				2
 # define CD_CHDIR				3
 # define CD_CWD					4
+
+# define EXPORT_NOT_VALID		1
 // End
 
 typedef struct s_envp
@@ -66,6 +68,8 @@ char	*find_pwd(t_shell *minishell, char *str);
 void	change_old_new_pwd(t_shell *minishell, char *str, char *key);
 int		get_export(t_shell *minishell, char **str);
 int		sort_export(t_envp **tmp_env);
+int		check_export(char **str, t_envp	*env);
+int		check_export_dup(t_envp *env, char **arr);
 t_envp	*fullfill_env(t_envp *env);
 void	ft_lst_swap_01(t_envp **swap);
 void	ft_lst_swap_02(t_envp **swap);
@@ -82,6 +86,7 @@ t_envp	*ft_lstfirst_minishell(t_envp *lst);
 int		ft_error_pwd(int i);
 int		ft_error_cd(int i);
 int		ft_error_cd_no_file(int i, char *str);
+int		ft_error_export(int i, char *str);
 
 void	check_list(t_envp *list); // check, need to remove!
 // End
