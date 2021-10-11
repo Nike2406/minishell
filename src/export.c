@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/11 14:33:59 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/11 17:18:56 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	sort_export(t_envp **tmp_env)
 	return (0);
 }
 
-int		get_export(t_shell *minishell, char **str)
+int	get_export(t_shell *minishell, char **str)
 {
 	t_envp	*tmp_env;
 
