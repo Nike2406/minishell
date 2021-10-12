@@ -77,6 +77,8 @@ void	ft_lst_swap_01(t_envp **swap);
 void	ft_lst_swap_02(t_envp **swap);
 void	ft_lst_swap_03(t_envp **swap);
 int		get_unset(t_shell *minishell, char **str);
+void	check_unset_params(char **str, t_envp *env);
+void	unset_del_elem(t_envp *tmp_exp, char *str, int f);
 int		get_exit(t_shell *minishell, char **str);
 
 

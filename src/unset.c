@@ -6,11 +6,24 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 17:15:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/12 15:55:21 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/12 20:03:54 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	unset_del_elem(t_envp *tmp_exp, char *str, int f)
+{
+	while (tmp_exp && !f)
+	{
+		if (!ft_strcmp(tmp_exp->key, str))
+		{
+			tmp_exp->prev = ft_lstdelone_minishell(tmp_exp);
+			break;
+		}
+		tmp_exp = tmp_exp->next;
+	}
+}
 
 void	check_unset_params(char **str, t_envp *env)
 {
@@ -31,15 +44,7 @@ void	check_unset_params(char **str, t_envp *env)
 			f = 1;
 			break;
 		}
-		while (tmp_exp && !f)
-		{
-			if (!ft_strcmp(tmp_exp->key, str[i]))
-			{
-				tmp_exp->prev = ft_lstdelone_minishell(tmp_exp);
-				break;
-			}
-		tmp_exp = tmp_exp->next;
-		}
+		unset_del_elem(tmp_exp, str[i], f);
 		i++;
 	}
 }
