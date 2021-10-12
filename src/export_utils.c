@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:46:17 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/11 17:07:00 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/11 21:34:41 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ int	check_export(char **str, t_envp *env)
 		if (!(ft_isalpha(arr[0][0])) && arr[0][0] != '_')
 		{
 			ft_error_export(EXPORT_NOT_VALID, str[i]);
+			i++;
 			free(arr);
-			return (1);
+			continue;
+			// return (1);
 		}
 		check_export_dup(env, arr);
 		i++;

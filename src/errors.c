@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:53:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/11 14:30:46 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/11 20:29:00 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,12 @@ int	ft_error_export(int i, char *str)
 {
 	if (i == EXPORT_NOT_VALID)
 		printf("export: `%s': not a valid identifier\n", str);
+	return (1);
+}
+
+int	ft_error_unset(int i, char *str)
+{
+	if (i == UNSET_NOT_VALID)
+		printf("unset: `%s': not a valid identifier\n", str);
 	return (1);
 }

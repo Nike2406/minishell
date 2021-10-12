@@ -25,6 +25,8 @@
 # define CD_CWD					4
 
 # define EXPORT_NOT_VALID		1
+
+# define UNSET_NOT_VALID		1
 // End
 
 typedef struct s_envp
@@ -83,11 +85,13 @@ t_envp	*ft_lstlast_minishell(t_envp *lst);
 t_envp	*ft_lstnew_minishell(char *key, char *value);
 int		ft_lstsize(t_envp *lst);
 t_envp	*ft_lstfirst_minishell(t_envp *lst);
+t_envp	*ft_lstdelone_minishell(t_envp *lst);
 
 int		ft_error_pwd(int i);
 int		ft_error_cd(int i);
 int		ft_error_cd_no_file(int i, char *str);
 int		ft_error_export(int i, char *str);
+int		ft_error_unset(int i, char *str);
 
 void	check_list(t_envp *list); // check, need to remove!
 // End
