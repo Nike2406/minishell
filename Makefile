@@ -1,7 +1,7 @@
 NAME	= minishell
 SRC		= minishell.c signal_handler.c single_quote.c env.c \
 		lst_functions.c pwd.c errors.c echo.c cd.c export.c \
-		check_list.c export_utils.c unset.c
+		check_list.c export_utils.c unset.c exit.c
 OBJ		= $(SRC:.c=.o)
 HDR		= minishell.h
 CC		= gcc
