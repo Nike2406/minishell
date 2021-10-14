@@ -80,7 +80,9 @@ int		get_unset(t_shell *minishell, char **str);
 void	check_unset_params(char **str, t_envp *env);
 void	unset_del_elem(t_envp *tmp_exp, char *str, int f);
 int		get_exit(t_shell *minishell, char **str);
+int		get_exec(t_shell *minishell, char **str);
 
+void	cntrl_c(int sig);
 
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
