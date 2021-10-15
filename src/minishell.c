@@ -6,32 +6,35 @@ void	input_eof(void)
 	exit(0);
 }
 
-void	minishell_parser(t_shell *minishell)
+int	minishell_parser(t_shell *minishell)
 {
 	int	i;
 
 	i = 0;
-	minishell->apps = (t_prog *)malloc(sizeof(t_prog));
-	minishell->apps->argc = 0;
-	minishell->apps->argv = NULL;
-	minishell->apps->next = NULL;
-	
-	if (minishell->input[i] == ' ' || minishell->input[i] == '\t')
+	if (minishell->input[i] == ' ' || minishell->input[i] == '\t') // доработать, в начале м.б. токены
 			minishell->input = space_cut_begin(minishell);
+	if (minishell->input == NULL)
+		return (0);
+	add_application(minishell);
 	while (minishell->input)
 	{
 		if (minishell->input[i] == '$')
 			minishell->input = dollar(minishell, &i);
-		else if (minishell->input[i] == '\'')
+		else if (minishell->input[i] == '\'') // нужно сделать ошибкой, если нет второй кавычки
 			minishell->input = single_quote(minishell, &i);
-		else if (minishell->input[i] == '\"')
+		else if (minishell->input[i] == '\"') // нужно сделать ошибкой, если нет второй кавычки
 			minishell->input = double_quote(minishell, &i);
 		else if (minishell->input[i] == ' ' || minishell->input[i] == '\t'
 				|| minishell->input[i] == 0)
-			minishell->input = space_cut(minishell, &i);
+			minishell->input = split_into_arguments(minishell, &i);
+		else if (tokens_handler(minishell, &i))
+			return (0);
+		else if (wildcards_handler(minishell, &i))
+			return (0);
 		i++;
 	}
 	// printf("%s\n", minishell->input);
+	return (1);
 }
 
 void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
@@ -45,12 +48,12 @@ void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
 	minishell->argv = argv;
 	minishell->envp = envp;
 	minishell->child_exit_status = 0;
+	minishell->apps = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell minishell;
-
 
 	initialization(&minishell, argc, argv, envp);
 	while (1)
@@ -64,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 			continue;
 		}
 		add_history(minishell.input);
-		minishell_parser(&minishell);
-		minishell_executor(&minishell);
+		if (minishell_parser(&minishell))
+			minishell_executor(&minishell);
 		garbage_collector(&minishell);
 	}
 }

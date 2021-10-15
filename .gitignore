@@ -10,3 +10,4 @@ push_swap.dSYM
 *.txt
 *.d
 minishell
+test.c
