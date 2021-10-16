@@ -6,11 +6,12 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 21:45:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/14 22:45:22 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/15 16:44:50 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <errno.h>
 
 char	**get_path(t_envp *env)
 {
@@ -54,8 +55,8 @@ char	*chk_cmd(char **addr, char *cmd)
 		i++;
 		free(tmp_cmd);
 	}
-	if (acss == -1)
-		printf("Wrong command!\n");
+	// if (acss == -1)
+	// 	exit (0);
 	return NULL;
 }
 
@@ -64,16 +65,40 @@ int	get_exec(t_shell *minishell, char **str)
 	char	**path;
 	char	*cmd;
 	int		exec;
+	int		pid;
 
-	path = get_path(minishell->environment);
-	cmd = chk_cmd(path, str[0]);
+	pid = fork();
+	if (pid < 0)
+	{
+		printf("Fork error!\n");
+		return (1);
+	}
+	if (!pid)
+	{
+		path = get_path(minishell->environment);
+		cmd = chk_cmd(path, str[0]);
+		path = get_arr_env(minishell->environment);
 
-	// ЗАпилить через форки!
-	exec = execve(cmd, str, NULL);
-	if (exec < 0)
-		printf("Wrong command!\n");
-	// int i = -1;
-	// while (path[++i])
-	// 	printf("%s\n", path[i]);
+		int j = 0;
+		printf("!!!!\n");
+		printf("%s\n", path[0]);
+		while (path[j])
+		{
+			printf("%s", path[j]);
+			j++;
+		}
+
+		exec = execve(cmd, str, NULL); // двумерный массив envp
+		if (exec < 0)
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(str[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
+			// printf("minishell: %s: command not found\n", str[0]);
+			exit (1);
+		}
+	}
+	else
+		wait(NULL);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:46:17 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/11 21:34:41 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/15 16:04:22 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ t_envp	*fullfill_env(t_envp *env)
 	tmp_env = env;
 	while (tmp_env)
 	{
+		if (tmp_env->value == NULL)
+			tmp_env->value = "";
 		ft_lstadd_back_minishell(&tmp, \
 			ft_lstnew_minishell(tmp_env->key, tmp_env->value));
 		tmp_env = tmp_env->next;

@@ -98,7 +98,8 @@ int		ft_error_cd_no_file(int i, char *str);
 int		ft_error_export(int i, char *str);
 int		ft_error_unset(int i, char *str);
 
-void	check_list(t_envp *list); // check, need to remove!
+void	check_list(t_envp *list);
+char	**get_arr_env(t_envp *env);
 // End
 
 #endif

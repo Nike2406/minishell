@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/14 21:52:54 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/15 11:02:08 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ void	parser(t_shell *minishell)
 			return ;
 		else if (get_exit(minishell, tmp) < 1)
 			return ;
-		else if (signal(SIGINT, cntrl_c))
-			return ;
+		// else if (signal(SIGINT, cntrl_c))
+			// return ;
 		else
 			get_exec(minishell, tmp);
 		// End
