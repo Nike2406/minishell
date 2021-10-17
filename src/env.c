@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/06 18:39:03 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/17 19:24:26 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,18 @@ int	get_env(t_shell *minishell, char **str)
 		return (0);
 	}
 	return (1);
+}
+
+char	*ft_getenv(t_envp *lst, char *key)
+{
+	t_envp	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		if (!ft_strcmp(key, tmp->key))
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return ("");
 }

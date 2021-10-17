@@ -109,6 +109,7 @@ void	check_unset_params(char **str, t_envp *env);
 void	unset_del_elem(t_envp *tmp_exp, char *str, int f);
 int		get_exit(t_shell *minishell, char **str);
 int		get_exec(t_shell *minishell, char **str);
+char	*ft_getenv(t_envp *lst, char *key);
 
 void	cntrl_c(int sig);
 

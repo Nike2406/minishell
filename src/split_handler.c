@@ -58,7 +58,7 @@ void	search_half_matches(char *pattern, char *d_name, int *k, int *j)
 	}
 }
 
-char	**search_matches(char *input, int *i)
+char	**search_matches(t_shell *minishell, int *i)
 {
 
 	DIR				*dir;
@@ -69,10 +69,11 @@ char	**search_matches(char *input, int *i)
 	int				argc;
 	char			*pattern;
 
-	pattern = ft_substr(input, 0, *i);
+	pattern = ft_substr(minishell->input, 0, *i);
 	argc = 0;
 	ret = NULL;
-	dir = opendir(getenv("PWD")); // заменить на свой getenv!!!!!!!!!!!!!!
+	// dir = opendir(getenv("PWD")); // заменить на свой getenv!!!!!!!!!!!!!!
+	dir = opendir(ft_getenv(minishell->environment, "PWD"));
 	if (dir != NULL)
 	{
 		tmp = readdir(dir);
@@ -82,9 +83,8 @@ char	**search_matches(char *input, int *i)
 			j = 0;
 			while (1)
 			{
-				if (pattern[0] != '*' && pattern[0] != tmp->d_name[0])
-					break ;
-				if (tmp->d_name[0] == '.' && pattern[0] != '.')
+				if ((pattern[0] != '*' && pattern[0] != tmp->d_name[0])
+					|| (tmp->d_name[0] == '.' && pattern[0] != '.'))
 					break ;
 				if (pattern[k] == tmp->d_name[j])
 					search_half_matches(pattern, tmp->d_name, &k, &j);
@@ -122,7 +122,7 @@ char	**expand_argv_wildcard(t_shell *minishell, int *i)
 	char	**tmp;
 	char	**tmp_cards;
 
-	tmp_cards = search_matches(minishell->input, i);
+	tmp_cards = search_matches(minishell, i);
 	k = -1;
 	j = 0;
 	tmp = (char **)malloc(sizeof(char *) * (++(minishell->apps->argc) + 100)); // исправить
