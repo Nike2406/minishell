@@ -22,3 +22,12 @@ int	standard_error(t_shell *minishell, char *arg_name)
 	minishell->child_exit_status = 1;
 	return (1);
 }
+
+int	executing_error(t_shell *minishell)
+{
+	write(2, "minishell: ", 11);
+	write(2, minishell->apps->argv[0], ft_strlen(minishell->apps->argv[0]));
+	write(2, ": command not found\n", 20);
+	minishell->child_exit_status = 127;
+	return (1);
+}

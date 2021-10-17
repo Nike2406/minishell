@@ -85,6 +85,7 @@ void	minishell_executor(t_shell *minishell);
 void	garbage_collector(t_shell *minishell);
 int		syntax_error(t_shell *minishell, const char symbol);
 int		standard_error(t_shell *minishell, char *arg_name);
+int		executing_error(t_shell *minishell);
 
 void	get_environment(char **env, t_shell *minishell);
 int		get_pwd(t_shell *minishell, char **str);

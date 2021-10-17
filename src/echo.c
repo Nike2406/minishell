@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 18:22:26 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/12 21:24:28 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/17 16:43:39 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	get_echo(char **args)
 				i++;
 		}
 		write_echo(args, i, n);
-		free(args);
 		return (0);
 	}
 	return (1);

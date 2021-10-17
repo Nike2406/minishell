@@ -1,6 +1,6 @@
 NAME   :=	minishell
 SRC    :=	minishell.c signal_handler.c quotes_handler.c \
-			dollar_handler.c split_handler.c minis_exec.c \
+			dollar_handler.c split_handler.c executor.c \
 			garbage_collector.c tokens_handler.c errors_handler.c \
 			app_handler.c wildcards_handler.c signals.c exit.c \
 			unset.c export_utils.c utils.c export.c cd.c echo.c \

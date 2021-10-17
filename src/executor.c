@@ -58,8 +58,6 @@ void	minishell_executor(t_shell *minishell)
 {
 	pid_t	pid;
 
-	if (builtin_execute(minishell))
-		return ;
 	minishell->apps = minishell->apps->head;
 	while (1)
 	{
@@ -74,8 +72,11 @@ void	minishell_executor(t_shell *minishell)
 				dup2(minishell->apps->fd_output_file, 1); // надо закрывать, если произошла ошибка исполнения программы?
 			if (minishell->apps->input_file != NULL)
 				dup2(minishell->apps->fd_input_file, 0); // если файл не найден, то запуска быть не должно; надо закрывать, если произошла ошибка исполнения программы?
-			execve(get_prog_name(minishell), minishell->apps->argv, minishell->envp); // need own envp
-			printf("Программа %s на сработала, ошибка %s\n", minishell->apps->argv[0], strerror(errno));
+			if (builtin_execute(minishell))
+				exit(0);
+			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment));
+			executing_error(minishell);
+			// printf("Программа %s на сработала, ошибка %s\n", minishell->apps->argv[0], strerror(errno));
 			exit(errno); // нужен ли errno? smells 
 		}
 		wait(NULL); // ожидание окончания дочернего процесса
