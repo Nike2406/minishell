@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:05:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/15 11:02:08 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/17 14:37:53 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	main(int argc, char **argv, char **envp)
 	// Добавил парсер окружения
 	// Start
 	get_environment(envp, &minishell);
+
+
 
 	// // Check env
 	// t_envp	*env_tmp;

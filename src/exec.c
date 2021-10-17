@@ -6,12 +6,11 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/14 21:45:22 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/15 16:44:50 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/17 15:01:56 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <errno.h>
 
 char	**get_path(t_envp *env)
 {
@@ -60,11 +59,27 @@ char	*chk_cmd(char **addr, char *cmd)
 	return NULL;
 }
 
-int	get_exec(t_shell *minishell, char **str)
+void	do_cmd(t_shell *minishell, char **str)
 {
 	char	**path;
 	char	*cmd;
 	int		exec;
+
+	path = get_path(minishell->environment);
+	cmd = chk_cmd(path, str[0]);
+	path = get_arr_env(minishell->environment);
+	exec = execve(cmd, str, path);
+	if (exec < 0)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(str[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit (1);
+	}
+}
+
+int	get_exec(t_shell *minishell, char **str)
+{
 	int		pid;
 
 	pid = fork();
@@ -74,30 +89,7 @@ int	get_exec(t_shell *minishell, char **str)
 		return (1);
 	}
 	if (!pid)
-	{
-		path = get_path(minishell->environment);
-		cmd = chk_cmd(path, str[0]);
-		path = get_arr_env(minishell->environment);
-
-		int j = 0;
-		printf("!!!!\n");
-		printf("%s\n", path[0]);
-		while (path[j])
-		{
-			printf("%s", path[j]);
-			j++;
-		}
-
-		exec = execve(cmd, str, NULL); // двумерный массив envp
-		if (exec < 0)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(str[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
-			// printf("minishell: %s: command not found\n", str[0]);
-			exit (1);
-		}
-	}
+		do_cmd(minishell, str);
 	else
 		wait(NULL);
 	return (0);
