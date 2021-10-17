@@ -12,7 +12,7 @@
 # include <term.h> // tgetent
 # include <termios.h> // tcgetattr, tcsetattr
 # include <dirent.h> // opendir, readdir, closedir
-# include <sys/errno.h> // нужен ли errno?
+# include <sys/errno.h>
 
 # define TOKEN_PIPE 1 // |
 # define TOKEN_OR 2 // ||

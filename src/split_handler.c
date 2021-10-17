@@ -17,12 +17,141 @@ char	*space_cut_begin(t_shell *minishell)
 	return (ret);
 }
 
+char	**updating_matches(char *input, char **argv, int *argc)
+{
+	int			k;
+	char		**tmp;
+
+	k = 0;
+	tmp = (char **)malloc(sizeof(char *) * (++(*argc) + 1));
+	while (k < *argc - 1)
+	{
+		tmp[k] = argv[k];
+		k++;
+	}
+	if (argv != NULL)
+		free(argv);
+	tmp[k] = ft_strdup(input);
+	tmp[k + 1] = NULL;
+	return (tmp);
+}
+
+void	search_half_matches(char *pattern, char *d_name, int *k, int *j)
+{
+	int		tmp_k;
+	int		tmp_j;
+
+	tmp_k = *k;
+	tmp_j = *j;
+	while (1)
+	{
+		++(*k);
+		++(*j);
+		if (pattern[*k] == '*' || (pattern[*k] == 0 && d_name[*j] == 0))
+			return ;
+		if (pattern[*k] != d_name[*j])
+		{
+			*k = tmp_k;
+			*j = tmp_j;
+			return ;
+		}
+	}
+}
+
+char	**search_matches(char *input, int *i)
+{
+
+	DIR				*dir;
+	struct dirent	*tmp;
+	char			**ret;
+	int				k;
+	int				j;
+	int				argc;
+	char			*pattern;
+
+	pattern = ft_substr(input, 0, *i);
+	argc = 0;
+	ret = NULL;
+	dir = opendir(getenv("PWD")); // заменить на свой getenv!!!!!!!!!!!!!!
+	if (dir != NULL)
+	{
+		tmp = readdir(dir);
+		while (tmp)
+		{
+			k = 0;
+			j = 0;
+			while (1)
+			{
+				if (pattern[0] != '*' && pattern[0] != tmp->d_name[0])
+					break ;
+				if (tmp->d_name[0] == '.' && pattern[0] != '.')
+					break ;
+				if (pattern[k] == tmp->d_name[j])
+					search_half_matches(pattern, tmp->d_name, &k, &j);
+				if (pattern[k] == '*')
+					k++;
+				else if (pattern[k] == 0)
+				{
+					ret = updating_matches(tmp->d_name, ret, &argc);
+					break ;
+				}
+				else if (tmp->d_name[j] == 0)
+					break ;
+				else
+					j++;
+			}
+			tmp = readdir(dir);
+		}
+		closedir(dir);
+
+	}
+	if (ret == NULL)
+	{
+		ret = malloc(sizeof(char *));
+		ret[0] = pattern;
+	}
+	else if (pattern != NULL)
+		free(pattern);
+	return (ret);
+}
+
+char	**expand_argv_wildcard(t_shell *minishell, int *i)
+{
+	int		k;
+	int		j;
+	char	**tmp;
+	char	**tmp_cards;
+
+	tmp_cards = search_matches(minishell->input, i);
+	k = -1;
+	j = 0;
+	tmp = (char **)malloc(sizeof(char *) * (++(minishell->apps->argc) + 100)); // исправить
+	while (++k < minishell->apps->argc - 1)
+		tmp[k] = minishell->apps->argv[k];
+	while (tmp_cards != NULL && tmp_cards[j] != NULL)
+		tmp[k++] = tmp_cards[j++];
+	tmp[k] = NULL;
+	if (minishell->apps->argv != NULL)
+		free(minishell->apps->argv);
+	if (tmp_cards != NULL)
+		free(tmp_cards);
+	minishell->apps->is_argv = 1;
+
+	int d = 0;
+	while (tmp[d] != 0)
+		{printf("tmp[%d]=[%s]\n", d, tmp[d]);
+		d++;}
+	return (tmp);
+}
+
 // Expanding argv and adding new element in its end.
 char	**expand_argv(t_shell *minishell, int *i)
 {
 	int			k;
 	char		**tmp;
 
+	if (minishell->apps->token == WILDCARD_ASTERISK)
+		return (expand_argv_wildcard(minishell, i));
 	k = 0;
 	tmp = (char **)malloc(sizeof(char *) * (++(minishell->apps->argc) + 1));
 	while (k < minishell->apps->argc - 1)
@@ -34,6 +163,7 @@ char	**expand_argv(t_shell *minishell, int *i)
 		free(minishell->apps->argv);
 	tmp[k] = ft_substr(minishell->input, 0, *i);
 	tmp[k + 1] = NULL;
+	minishell->apps->is_argv = 1;
 	return (tmp);
 }
 
@@ -94,7 +224,6 @@ char	*split_into_arguments(t_shell *minishell, int *i) // переработат
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
 	free(minishell->input);
-	minishell->apps->is_argv = 1;
 
 	// int check = 0;
 	// printf("argc=%d\n", minishell->apps->argc);
