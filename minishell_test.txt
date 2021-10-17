@@ -1,0 +1,6 @@
+ls | | | ls ; ls -la	Ошибка: syntax error near unexpected token '|'
+ls ||| ls ; ls -la		Ошибка: syntax error near unexpected token '|'
+ls|||ls;ls -la			Ошибка: syntax error near unexpected token '|'
+test.txt > test2.txt	Ошибка: shell: test.txt: command not found, но создастся пустой файл
+echo *Ma*				должен напечататься Makefile
+echo ./m*				должен быть хотя бы "./m*"

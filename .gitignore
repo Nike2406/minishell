@@ -7,3 +7,4 @@ a.out.dSYM
 push_swap.dSYM
 *.gch
 *.out
+test.c

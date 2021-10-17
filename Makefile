@@ -1,55 +1,44 @@
-NAME 		= minishell
-FLAGS		= -Wall -Wextra -Werror
-CFLAGS		= $(FLAGS) -I. -g
-CC			= gcc
+NAME   :=	minishell
+SRC    :=	minishell.c signal_handler.c quotes_handler.c \
+			dollar_handler.c split_handler.c minis_exec.c \
+			garbage_collector.c tokens_handler.c errors_handler.c \
+			app_handler.c wildcards_handler.c signals.c exit.c \
+			unset.c export_utils.c utils.c export.c cd.c echo.c \
+			errors.c pwd.c lst_functions.c env.c
 
-ifeq ($(MAKECMDGOALS),bonus)
-	OBJS = $(SRCS_BONUS:%.c=%.o)
-else
-	OBJS = $(SRCS:%.c=%.o)
-endif
+OBJ    :=	$(SRC:.c=.o)
+HDR    :=	minishell.h
+CC     :=	gcc
+CFLAGS :=	-Wall -Wextra -Werror -MMD
+VPATH  :=	src include
 
-SRCS 		= src/philo.c \
-			src/utils.c \
-			src/philo_actions.c \
-			src/waitress.c \
-			src/errs.c
-#SRCS_BONUS	=
-INCLUDE		= philo.h
+all:		$(NAME)
 
-.PHONY: all clean fclean re bonus norm
+$(NAME):	$(OBJ)
+			$(MAKE) -C libft
+			$(CC) $(CFLAGS) -Llibft -lft -lreadline -L/Users/${USER}/.brew/Cellar/readline/8.1/lib/ -ltermcap $(OBJ) -o $(NAME)
 
-.o: .c $(INCLUDE)
-	$(CC) $(CFLAGS) $< -o $@
+bonus:
 
-all: $(NAME)
+%.o: %.c
+			$(CC) $(CFLAGS) -Iinclude -Ilibft -I/Users/${USER}/.brew/Cellar/readline/8.1/include -c $< -o $@
 
-sound:
-	@say -v Yuri "Поехали, ща скопилю тебе брат"
+include		$(wildcard *.d)
 
-${NAME}: $(OBJS) $(INCLUDE)
+readline:
+			brew install readline
 
-	$(CC) $(OBJS) -o $(NAME)
-#	@say -v Yuri "Готово, братуха ежжи"
-	@echo ""
-	@echo 🥴🤢🤮😵
-	@echo ""
-
-bonus: libft $(NAME)
-
-norm:
-	norminette $(SRCS)
-#	norminette $(SRCS_BONUS)
-	norminette $(INCLUDE)
+readline_uninstall:
+			brew uninstall readline		
 
 clean:
-	rm -f src/*.o
+			rm -rf *.o *.d
+			$(MAKE) clean -C libft
 
-fclean: clean
-	rm -f $(NAME)
-	rm -rf a.out*
-	rm -rf */a.out*
-	rm -rf *.gch
-	rm -rf */*.gch
+fclean:		clean
+			rm -rf $(NAME)
+			$(MAKE) fclean -C libft
 
-re: fclean all
+re:			fclean all
+
+.PHONY:		all clean fclean re bonus readline readline_uninstall
