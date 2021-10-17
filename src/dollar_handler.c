@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:46:16 by signacia          #+#    #+#             */
-/*   Updated: 2021/10/17 18:46:43 by signacia         ###   ########.fr       */
+/*   Updated: 2021/10/17 20:28:23 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,18 @@ static char	*dollar_env(t_shell *minishell, int *i, int j)
 	char	*tmp;
 	char	*tmp2;
 	char	*tmp3;
+	char	*env_value;
 
 	while (ft_isalnum(minishell->input[*i]) || minishell->input[*i] == '_')
 		(*i)++;
 	tmp = ft_substr(minishell->input, 0, j);
-	tmp2 = ft_substr(minishell->input, j + 1, *i - j - 1); //ЗАМЕНИТЬ env'ОМ!
-	// Также нужен будет сдвиг *i
+	tmp2 = ft_substr(minishell->input, j + 1, *i - j - 1);
+	env_value = ft_getenv(minishell->environment, tmp2);
+	free(tmp2);
 	tmp3 = ft_strdup(minishell->input + *i);
-	tmp2 = ft_strjoin_free(tmp2, tmp3);
+	*i += ft_strlen(env_value) - ft_strlen(tmp2);
+	tmp2 = ft_strjoin(env_value, tmp3);
+	free(tmp3);
 	tmp = ft_strjoin_free(tmp, tmp2);
 	free(minishell->input);
 	*i -= 2;

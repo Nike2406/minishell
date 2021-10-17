@@ -8,7 +8,7 @@ char	*get_prog_name(t_shell *minishell)
 	char			*ret;
 	char			**paths;
 	
-	paths = ft_split(getenv("PATH"), ':'); // заменить на свой env!!!!
+	paths = ft_split(ft_getenv(minishell->environment, "PATH"), ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -30,7 +30,6 @@ char	*get_prog_name(t_shell *minishell)
 		}
 		i++;
 	}
-	//printf("dowlu?\n");
 	return (minishell->apps->argv[0]);
 }
 

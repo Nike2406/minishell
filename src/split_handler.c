@@ -72,7 +72,6 @@ char	**search_matches(t_shell *minishell, int *i)
 	pattern = ft_substr(minishell->input, 0, *i);
 	argc = 0;
 	ret = NULL;
-	// dir = opendir(getenv("PWD")); // заменить на свой getenv!!!!!!!!!!!!!!
 	dir = opendir(ft_getenv(minishell->environment, "PWD"));
 	if (dir != NULL)
 	{
