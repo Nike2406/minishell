@@ -49,21 +49,18 @@ static int	builtin_execute(t_shell *minishell)
 		return (1);
 	else if (get_exit(minishell, minishell->apps->argv) < 1)
 		return (1);
-	else
-		return (0);
+	return (0);
 }
 
 void	minishell_executor(t_shell *minishell)
 {
+	minishell->child_exit_status = 0;
 	pid_t	pid;
-
+	if (builtin_execute(minishell))
+		return ;
 	minishell->apps = minishell->apps->head;
 	while (1)
 	{
-		if (minishell->apps->output_file != NULL)
-			printf("name of output_file=%s\n", minishell->apps->output_file);
-		if (minishell->apps->input_file != NULL)
-			printf("name of input_file=%s\n", minishell->apps->input_file);
 		pid = fork();
 		if (pid == 0)
 		{
@@ -71,9 +68,8 @@ void	minishell_executor(t_shell *minishell)
 				dup2(minishell->apps->fd_output_file, 1); // надо закрывать, если произошла ошибка исполнения программы?
 			if (minishell->apps->input_file != NULL)
 				dup2(minishell->apps->fd_input_file, 0); // если файл не найден, то запуска быть не должно; надо закрывать, если произошла ошибка исполнения программы?
-			if (builtin_execute(minishell))
-				exit(0);
-			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment));
+			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment)); 
+			// execve(get_prog_name(minishell), minishell->apps->argv, envp); // не забыть заменить на свой енв
 			executing_error(minishell);
 			// printf("Программа %s на сработала, ошибка %s\n", minishell->apps->argv[0], strerror(errno));
 			exit(errno); // нужен ли errno? smells 

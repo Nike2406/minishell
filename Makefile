@@ -25,6 +25,9 @@ bonus:
 
 include		$(wildcard *.d)
 
+test:
+			$(CC) $(CFLAGS) -o test test.c
+
 readline:
 			brew install readline
 

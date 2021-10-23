@@ -52,7 +52,7 @@ static int	handle_pipe(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -86,7 +86,7 @@ static int	handle_or(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -108,7 +108,7 @@ static int	redirect_output(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -131,7 +131,7 @@ static int	redirect_output_append(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -154,7 +154,7 @@ static int	redirect_input(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -177,7 +177,7 @@ static int	heredoc(t_shell *minishell, int *i) // сделать через read
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
@@ -188,7 +188,7 @@ static int	heredoc(t_shell *minishell, int *i) // сделать через read
 
 static int	single_ampersand(t_shell *minishell, int *i) // если будет время, то реализовать
 {
-	return (syntax_error(minishell, minishell->input[*i]));
+	return (syntax_error(minishell, minishell->input + *i, 1));
 }
 
 static int	double_ampersand(t_shell *minishell, int *i)
@@ -206,7 +206,7 @@ static int	double_ampersand(t_shell *minishell, int *i)
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
 		minishell->input[*i + 1] == '&')
-		return (syntax_error(minishell, minishell->input[*i + 1]));
+		return (syntax_error(minishell, minishell->input + *i + 1, 1));
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;

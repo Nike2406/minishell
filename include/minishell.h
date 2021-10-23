@@ -23,6 +23,7 @@
 # define TOKEN_HEREDOC					6 // <<
 # define TOKEN_AND						7 // &&
 # define WILDCARD_ASTERISK				8 // *
+
 # define PWD_ERR						1
 # define PWD_ERR_OVERWELMING			2
 
@@ -45,7 +46,7 @@ typedef struct s_envp
 
 typedef struct s_prog
 {
-	char			argc;
+	int				argc;
 	char			**argv;
 	int				is_argv;
 	int				token;
@@ -60,30 +61,46 @@ typedef struct s_prog
 typedef struct s_shell
 {
 	char	*input; // считанная строка
-	char	**envp;	// env
 	int		child_exit_status; // для $?
 	int		fd0_source; // хранить 0-ой фд
 	int		fd1_source; // хранить 1-ой фд
 	int		fd2_source; // хранить 2-ой фд
 	t_prog	*apps;
 	t_envp	*environment;
-// 		junk
-	int		argc;
-	char	**argv;
+	int		argc;		// junk;
+	char	**argv;		// junk;
 }			t_shell;
+
+typedef struct s_asterisk
+{
+	DIR				*dir;
+	struct dirent	*cmp;
+	int				k;
+	int				j;
+	int				argc;
+}					t_asterisk;
+
+typedef struct s_temp
+{
+	char	*tmp;
+	char	*tmp2;
+	char	*tmp3;
+}			t_temp;
+
+
 //void	sighandler(int sig);
 void	add_application(t_shell *minishell);
-char	*single_quote(t_shell *minishell, int *i);
-char	*double_quote(t_shell *minishell, int *i);
+int		single_quote(t_shell *minishell, int *i);
+int		double_quote(t_shell *minishell, int *i);
 char	*dollar(t_shell *minishell, int *i);
-char	*space_cut_begin(t_shell *minishell);
+int		space_cut_begin(t_shell *minishell);
 char	**expand_argv(t_shell *minishell, int *i);
 char	*split_into_arguments(t_shell *minishell, int *i);
 int		tokens_handler(t_shell *minishell, int *i);
 int		wildcards_handler(t_shell *minishell, int *i);
 void	minishell_executor(t_shell *minishell);
 void	garbage_collector(t_shell *minishell);
-int		syntax_error(t_shell *minishell, const char symbol);
+int		syntax_error(t_shell *minishell, const char *token, int len);
 int		standard_error(t_shell *minishell, char *arg_name);
 int		executing_error(t_shell *minishell);
 

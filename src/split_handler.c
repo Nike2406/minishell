@@ -1,145 +1,190 @@
 #include "minishell.h"
 
-char	*space_cut_begin(t_shell *minishell)
+int	space_cut_begin(t_shell *minishell)
 {
-	char	*ret;
 	int		i;
+	char	*ret;
 
-	ret = NULL;
 	i = 0;
+	ret = NULL;
 	while (minishell->input[i] == ' ' || minishell->input[i] == '\t')
-	{
 		i++;
+	if (minishell->input[i] == '|' || minishell->input[i] == '&')
+	{
+		if (minishell->input[i] == minishell->input[i + 1])
+			return (syntax_error(minishell, minishell->input + i, 2));
+		return (syntax_error(minishell, minishell->input + i, 1));
 	}
 	if (minishell->input[i] != 0)
 		ret = ft_strdup(minishell->input + i);
 	free(minishell->input);
-	return (ret);
+	minishell->input = ret;
+	return (0);
 }
 
-char	**updating_matches(char *input, char **argv, int *argc)
+static char	**upd_matches(t_asterisk *astr, char **argv)
 {
 	int			k;
 	char		**tmp;
 
 	k = 0;
-	tmp = (char **)malloc(sizeof(char *) * (++(*argc) + 1));
-	while (k < *argc - 1)
+	tmp = (char **)malloc(sizeof(char *) * (++(astr->argc) + 1));
+	while (k < astr->argc - 1)
 	{
 		tmp[k] = argv[k];
 		k++;
 	}
 	if (argv != NULL)
 		free(argv);
-	tmp[k] = ft_strdup(input);
+	tmp[k] = ft_strdup(astr->cmp->d_name);
 	tmp[k + 1] = NULL;
 	return (tmp);
 }
 
-void	search_half_matches(char *pattern, char *d_name, int *k, int *j)
+static int	search_half_matches(char *pattern, t_asterisk *astr)
 {
 	int		tmp_k;
 	int		tmp_j;
 
-	tmp_k = *k;
-	tmp_j = *j;
-	while (1)
+	if (pattern[astr->k] == astr->cmp->d_name[astr->j] && pattern[astr->k])
 	{
-		++(*k);
-		++(*j);
-		if (pattern[*k] == '*' || (pattern[*k] == 0 && d_name[*j] == 0))
-			return ;
-		if (pattern[*k] != d_name[*j])
+		tmp_k = astr->k;
+		tmp_j = astr->j;
+		while (1)
 		{
-			*k = tmp_k;
-			*j = tmp_j;
-			return ;
+			++(astr->k);
+			++(astr->j);
+			if (pattern[astr->k] == '*' || (pattern[astr->k] == 0 && astr->cmp->d_name[astr->j] == 0))
+				break ;
+			if (pattern[astr->k] != astr->cmp->d_name[astr->j])
+			{
+				astr->k = tmp_k;
+				astr->j = tmp_j;
+				break ;
+			}
 		}
+	}
+	return (1);
+}
+
+static char	**lonely_pattern(char *pattern, t_asterisk	*astr)
+{
+	char	**ret;
+
+	ret = (char **)malloc(sizeof(char *) * 2);
+	ret[0] = pattern;
+	ret[1] = NULL;
+	astr->argc++;
+	return (ret);
+}
+
+
+static void	compare_matches(t_asterisk *astr, char *pattern, char ***ret)
+{
+	astr->cmp = readdir(astr->dir);
+	while (astr->cmp)
+	{
+		astr->k = 0;
+		astr->j = 0;
+		while (1)
+		{
+			if ((pattern[0] != '*' && pattern[0] != astr->cmp->d_name[0])
+				|| (astr->cmp->d_name[0] == '.' && pattern[0] != '.'))
+				break ;
+			search_half_matches(pattern, astr);
+			if (pattern[astr->k] == '*')
+				astr->k++;
+			else if (pattern[astr->k] == 0)
+			{
+				*ret = upd_matches(astr, *ret);
+				break ;
+			}
+			else if (astr->cmp->d_name[astr->j] == 0)
+				break ;
+			else
+				astr->j++;
+		}
+		astr->cmp = readdir(astr->dir);
 	}
 }
 
-char	**search_matches(t_shell *minishell, int *i)
+static char	**search_matches(t_shell *minishell, int *i, t_asterisk	*astr)
 {
-
-	DIR				*dir;
-	struct dirent	*tmp;
-	char			**ret;
-	int				k;
-	int				j;
-	int				argc;
-	char			*pattern;
+	char	**ret;
+	char	*pattern;
 
 	pattern = ft_substr(minishell->input, 0, *i);
-	argc = 0;
+	if (pattern[0] == '/')
+		return (lonely_pattern(pattern, astr));
 	ret = NULL;
-	dir = opendir(ft_getenv(minishell->environment, "PWD"));
-	if (dir != NULL)
+	astr->dir = opendir(ft_getenv(minishell->environment, "PWD"));
+	if (astr->dir != NULL)
 	{
-		tmp = readdir(dir);
-		while (tmp)
-		{
-			k = 0;
-			j = 0;
-			while (1)
-			{
-				if ((pattern[0] != '*' && pattern[0] != tmp->d_name[0])
-					|| (tmp->d_name[0] == '.' && pattern[0] != '.'))
-					break ;
-				if (pattern[k] == tmp->d_name[j])
-					search_half_matches(pattern, tmp->d_name, &k, &j);
-				if (pattern[k] == '*')
-					k++;
-				else if (pattern[k] == 0)
-				{
-					ret = updating_matches(tmp->d_name, ret, &argc);
-					break ;
-				}
-				else if (tmp->d_name[j] == 0)
-					break ;
-				else
-					j++;
-			}
-			tmp = readdir(dir);
-		}
-		closedir(dir);
+		compare_matches(astr, pattern, &ret);
+		closedir(astr->dir);
 
+		// int d = 0;
+		// while (ret[d] != 0)
+		// {
+		// 	printf("tmp[%d]=[%s]\n", d, ret[d]);
+		// 	d++;
+		// }
+		// printf("argc=[%d]\n", astr->argc);
 	}
 	if (ret == NULL)
-	{
-		ret = malloc(sizeof(char *));
-		ret[0] = pattern;
-	}
-	else if (pattern != NULL)
-		free(pattern);
+		return (lonely_pattern(pattern, astr));
+	free(pattern);
 	return (ret);
+}
+
+static t_asterisk	create_astr(void)
+{
+	t_asterisk	astr;
+
+	astr.dir = NULL;
+	astr.cmp = NULL;
+	astr.k = 0;
+	astr.j = 0;
+	astr.argc = 0;
+	return (astr);
 }
 
 char	**expand_argv_wildcard(t_shell *minishell, int *i)
 {
-	int		k;
-	int		j;
-	char	**tmp;
-	char	**tmp_cards;
+	int			k;
+	int			j;
+	char		**tmp;
+	char		**tmp_cards;
+	t_asterisk	astr;
 
-	tmp_cards = search_matches(minishell, i);
+	astr = create_astr();
+	tmp_cards = search_matches(minishell, i, &astr);
 	k = -1;
 	j = 0;
-	tmp = (char **)malloc(sizeof(char *) * (++(minishell->apps->argc) + 100)); // исправить
-	while (++k < minishell->apps->argc - 1)
+	// printf("orig=%d astr=%d, total=%d\n", minishell->apps->argc, astr.argc, minishell->apps->argc + astr.argc);
+	minishell->apps->argc += astr.argc;
+	tmp = (char **)malloc(sizeof(char *) * (minishell->apps->argc + 1));
+	while (minishell->apps->argv != NULL && minishell->apps->argv[++k] != NULL)
+	{
+		// printf("minishell[%d]=[%s]\n", k, minishell->apps->argv[k]);
 		tmp[k] = minishell->apps->argv[k];
+	}
 	while (tmp_cards != NULL && tmp_cards[j] != NULL)
+	{
+		// printf("tmp_cards[%d]=[%s]\n", j, tmp_cards[j]);
 		tmp[k++] = tmp_cards[j++];
+	}
 	tmp[k] = NULL;
 	if (minishell->apps->argv != NULL)
 		free(minishell->apps->argv);
 	if (tmp_cards != NULL)
 		free(tmp_cards);
-	minishell->apps->is_argv = 1;
 
-	int d = 0;
-	while (tmp[d] != 0)
-		{printf("tmp[%d]=[%s]\n", d, tmp[d]);
-		d++;}
+	// int d = 0;
+	// while (tmp[d] != 0)
+	// 	{printf("tmp[%d]=[%s]\n", d, tmp[d]);
+	// 	d++;}
+	minishell->apps->token = 0;
 	return (tmp);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/11 17:18:56 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/23 12:49:03 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,13 @@ int	get_export(t_shell *minishell, char **str)
 
 	if (!ft_strncmp("export", str[0], 7))
 	{
+		// int i = 0;
+		// while (str[i])
+		// {
+		// 	printf("%s\n", str[i]);
+		// 	i++;
+		// }
+
 		if (str[1])
 		{
 			if (check_export(str, minishell->environment))

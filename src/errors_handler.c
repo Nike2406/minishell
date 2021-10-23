@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-int	syntax_error(t_shell *minishell, const char symbol)
+int	syntax_error(t_shell *minishell, const char *token, int len)
 {
 	write(2, "minishell: ", 11);
-	if (symbol == 0)
-		write(2, "syntax error: unexpected end of file\n", 37);
+	if (token[0] == 0)
+		write(2, "syntax error near unexpected token `newline'\n", 45);
 	else
 	{
-		write(2, "syntax error near unexpected token '", 36);
-		write(2, &symbol, 1);
+		write(2, "syntax error near unexpected token `", 36);
+		write(2, token, len);
 		write(2, "'\n", 2);
 	}
 	minishell->child_exit_status = 258;

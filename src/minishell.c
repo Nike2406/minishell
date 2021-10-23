@@ -11,8 +11,8 @@ int	minishell_parser(t_shell *minishell)
 	int	i;
 
 	i = 0;
-	if (minishell->input[i] == ' ' || minishell->input[i] == '\t') // доработать, в начале м.б. токены
-			minishell->input = space_cut_begin(minishell);
+	if (space_cut_begin(minishell))
+		return (0);
 	if (minishell->input == NULL)
 		return (0);
 	add_application(minishell);
@@ -20,10 +20,10 @@ int	minishell_parser(t_shell *minishell)
 	{
 		if (minishell->input[i] == '$')
 			minishell->input = dollar(minishell, &i);
-		else if (minishell->input[i] == '\'') // нужно сделать ошибкой, если нет второй кавычки
-			minishell->input = single_quote(minishell, &i);
-		else if (minishell->input[i] == '\"') // нужно сделать ошибкой, если нет второй кавычки
-			minishell->input = double_quote(minishell, &i);
+		else if (single_quote(minishell, &i))
+			return (0);
+		else if (double_quote(minishell, &i))
+			return (0);
 		else if (minishell->input[i] == ' ' || minishell->input[i] == '\t'
 				|| minishell->input[i] == 0)
 			minishell->input = split_into_arguments(minishell, &i);
@@ -37,7 +37,7 @@ int	minishell_parser(t_shell *minishell)
 	return (1);
 }
 
-void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
+void	initialization(t_shell *minishell, int argc, char **argv)
 {
 		/*
 	Стартовая и разовая инициализация всякого мусора запихать в одну функцию,
@@ -46,7 +46,6 @@ void	initialization(t_shell *minishell, int argc, char **argv, char **envp)
 	*/
 	minishell->argc = argc;
 	minishell->argv = argv;
-	minishell->envp = envp;
 	minishell->child_exit_status = 0;
 	minishell->apps = NULL;
 }
@@ -56,7 +55,7 @@ int	main(int argc, char **argv, char **envp)
 	t_shell minishell;
 
 	get_environment(envp, &minishell);
-	initialization(&minishell, argc, argv, envp);
+	initialization(&minishell, argc, argv);
 	while (1)
 	{
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
