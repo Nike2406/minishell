@@ -43,5 +43,4 @@ void	ft_putnbr(int nb);
 void	ft_putstr(char *a);
 char	*ft_strcpy(char *dest, char *src);
 void	ft_putendl(char *s);
-
 #endif

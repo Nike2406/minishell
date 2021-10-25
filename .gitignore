@@ -8,4 +8,9 @@ a.out.dSYM
 push_swap.dSYM
 *.gch
 *.out
+<<<<<<< HEAD
 test.c
+=======
+*.d
+minishell
+>>>>>>> prochell
