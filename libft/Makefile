@@ -23,7 +23,7 @@ CC     =	gcc
 
 CFLAGS =	-Wall -Wextra -Werror
 
-.c.o:		
+.c.o:
 			$(CC) $(CFLAGS) -c $^ -o $@
 
 all:		$(NAME)

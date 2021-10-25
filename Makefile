@@ -32,7 +32,7 @@ readline:
 			brew install readline
 
 readline_uninstall:
-			brew uninstall readline		
+			brew uninstall readline
 
 clean:
 			rm -rf *.o *.d
