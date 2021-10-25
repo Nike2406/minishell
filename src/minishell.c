@@ -58,7 +58,6 @@ int	main(int argc, char **argv, char **envp)
 	initialization(&minishell, argc, argv);
 	while (1)
 	{
-		// open(ft_itoa(x++), O_CREAT);
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
 		if (!(minishell.input))
 			input_eof();
