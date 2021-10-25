@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 17:15:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/12 20:03:54 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/25 20:50:31 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,26 @@ void	unset_del_elem(t_envp *tmp_exp, char *str, int f)
 	}
 }
 
+int	check_equal(char **str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i])
+	{
+		j = 0;
+		while (str[i][j])
+		{
+			if (str[i][j] == '=')
+				return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
+}
+
 void	check_unset_params(char **str, t_envp *env)
 {
 	t_envp	*tmp_exp;
@@ -38,7 +58,7 @@ void	check_unset_params(char **str, t_envp *env)
 		f = 0;
 		j = 0;
 		tmp_exp = env;
-		while (!(ft_isalpha(str[i][j])) && str[i][j] != '_')
+		while ((!(ft_isalpha(str[i][j])) && (str[i][j] != '_')) || !check_equal(str))
 		{
 			ft_error_unset(UNSET_NOT_VALID, str[i]);
 			f = 1;

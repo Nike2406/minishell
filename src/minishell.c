@@ -33,7 +33,7 @@ int	minishell_parser(t_shell *minishell)
 			return (0);
 		i++;
 	}
-	
+
 	return (1);
 }
 
@@ -53,12 +53,12 @@ void	initialization(t_shell *minishell, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell minishell;
-	int x = 0;
+	// int x = 0;
 	get_environment(envp, &minishell);
 	initialization(&minishell, argc, argv);
 	while (1)
 	{
-		open(ft_itoa(x++), O_CREAT);
+		// open(ft_itoa(x++), O_CREAT);
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
 		if (!(minishell.input))
 			input_eof();
