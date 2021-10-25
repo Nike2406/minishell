@@ -71,3 +71,5 @@ int	main(int argc, char **argv, char **envp)
 		garbage_collector(&minishell);
 	}
 }
+
+//after to remove
