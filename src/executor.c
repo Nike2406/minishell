@@ -68,13 +68,14 @@ void	minishell_executor(t_shell *minishell)
 				dup2(minishell->apps->fd_output_file, 1); // надо закрывать, если произошла ошибка исполнения программы?
 			if (minishell->apps->input_file != NULL)
 				dup2(minishell->apps->fd_input_file, 0); // если файл не найден, то запуска быть не должно; надо закрывать, если произошла ошибка исполнения программы?
+			if (minishell->apps->heredoc != NULL)
+				dup2(minishell->apps->fd[0], 0);
 			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment)); 
-			// execve(get_prog_name(minishell), minishell->apps->argv, envp); // не забыть заменить на свой енв
 			executing_error(minishell);
 			// printf("Программа %s на сработала, ошибка %s\n", minishell->apps->argv[0], strerror(errno));
 			exit(errno); // нужен ли errno? smells 
 		}
-		wait(NULL); // ожидание окончания дочернего процесса
+		waitpid(-1, NULL, 0); // ожидание окончания дочернего процесса
 		if (minishell->apps->next == NULL)
 			break;
 		minishell->apps = minishell->apps->next;

@@ -11,6 +11,7 @@ t_prog	*new_application(void)
 	tmp->token = 0;
 	tmp->output_file = NULL;
 	tmp->input_file = NULL;
+	tmp->heredoc = NULL;
 	tmp->head = tmp;
 	tmp->next = NULL;
 	return (tmp);

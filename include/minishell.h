@@ -54,6 +54,8 @@ typedef struct s_prog
 	int				fd_output_file;
 	char			*input_file;
 	int				fd_input_file;
+	char			*heredoc;
+	int				fd[2];
 	struct s_prog	*head;
 	struct s_prog	*next;
 }	t_prog;

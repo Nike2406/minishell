@@ -17,6 +17,8 @@ void	garbage_collector(t_shell *minishell)
 			free(minishell->apps->output_file);
 		if (minishell->apps->input_file != NULL)
 			free(minishell->apps->input_file);
+		if (minishell->apps->heredoc != NULL)
+			free(minishell->apps->heredoc);
 		tmp = minishell->apps;
 		minishell->apps = minishell->apps->next;
 		free(tmp);

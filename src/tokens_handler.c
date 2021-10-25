@@ -47,7 +47,7 @@ static int	handle_pipe(t_shell *minishell, int *i)
 		minishell->apps->argv = expand_argv(minishell, i);
 	minishell->apps->token = TOKEN_PIPE;
 	add_application(minishell);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
@@ -81,7 +81,7 @@ static int	handle_or(t_shell *minishell, int *i)
 	++(*i);
 	minishell->apps->token = TOKEN_OR;
 	add_application(minishell);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
@@ -103,7 +103,7 @@ static int	redirect_output(t_shell *minishell, int *i)
 	if (*i != 0)
 		minishell->apps->argv = expand_argv(minishell, i);
 	minishell->apps->token = TOKEN_REDIRECT_OUTPUT;
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
@@ -126,7 +126,7 @@ static int	redirect_output_append(t_shell *minishell, int *i)
 		minishell->apps->argv = expand_argv(minishell, i);
 	minishell->apps->token = TOKEN_REDIRECT_OUTPUT_APPEND;
 	++(*i);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
@@ -163,16 +163,16 @@ static int	redirect_input(t_shell *minishell, int *i)
 	return (0);
 }
 
-static int	heredoc(t_shell *minishell, int *i) // сделать через readline
+static int	heredoc(t_shell *minishell, int *i)
 {
 	char	*ret;
 
 	ret = NULL;
 	if (*i != 0)
 		minishell->apps->argv = expand_argv(minishell, i);
-	minishell->apps->token = TOKEN_REDIRECT_INPUT;
+	minishell->apps->token = TOKEN_HEREDOC;
 	++(*i);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||
@@ -201,7 +201,7 @@ static int	double_ampersand(t_shell *minishell, int *i)
 	++(*i);
 	minishell->apps->token = TOKEN_AND;
 	add_application(minishell);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i + 1] == 0 || minishell->input[*i + 1] == '|' ||
 		minishell->input[*i + 1] == '<' || minishell->input[*i + 1] == '>' ||

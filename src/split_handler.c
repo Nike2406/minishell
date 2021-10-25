@@ -250,6 +250,34 @@ static int	split_into_input_file(t_shell *minishell, int *i)
 	return (0);
 }
 
+static int	split_into_heredoc(t_shell *minishell, int *i)
+{
+	char	*eof;
+
+	eof = NULL;
+	if (minishell->apps->heredoc != NULL)
+		free(minishell->apps->heredoc);
+	minishell->apps->heredoc = ft_substr(minishell->input, 0, *i);
+	if (minishell->apps->heredoc == NULL)
+		return (standard_error(minishell, NULL));
+	pipe(minishell->apps->fd); // нужна проверка
+	while (1)
+	{
+		eof = readline("> ");
+		if (!ft_strcmp(minishell->apps->heredoc, eof))
+		{
+			free(eof);
+			break ;
+		}
+		write(minishell->apps->fd[1], eof, ft_strlen(eof));
+		write(minishell->apps->fd[1], "\n", 1);
+		free(eof);
+	}
+	close(minishell->apps->fd[1]);
+	minishell->apps->token = 0;
+	return (0);
+}
+
 char	*split_into_arguments(t_shell *minishell, int *i) // переработать на возврат 0 или 1
 {
 	char	*ret;
@@ -260,9 +288,12 @@ char	*split_into_arguments(t_shell *minishell, int *i) // переработат
 		split_into_output_file(minishell, i);
 	else if (minishell->apps->token == TOKEN_REDIRECT_INPUT)
 		split_into_input_file(minishell, i);
+	else if (minishell->apps->token == TOKEN_HEREDOC)
+		split_into_heredoc(minishell, i);
 	else
 		minishell->apps->argv = expand_argv(minishell, i);
-	while (minishell->input[*i + 1] == ' ' || minishell->input[*i + 1] == '\t')
+	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' '
+			|| minishell->input[*i + 1] == '\t'))
 		++(*i);
 	if (minishell->input[*i] != 0 && minishell->input[*i + 1] != 0)
 		ret = ft_strdup(minishell->input + *i + 1);
