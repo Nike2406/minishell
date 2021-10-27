@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:37:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/13 19:41:01 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/27 21:10:04 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	cntrl_c(int sig)
 {
 	(void)sig;
+	rl_replace_line("", 0);
 	write(1, "\n", 1);
 	return ;
 }
