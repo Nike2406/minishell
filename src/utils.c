@@ -28,6 +28,7 @@ char	**get_arr_env(t_envp *env)
 		arr[i] = (char *)malloc(ft_strlen(tmp->key) + ft_strlen(tmp->value) + 2); // здесь поломка!
 		tmp_str = ft_strjoin(tmp->key, "=");
 		tmp_str = ft_strjoin(tmp_str, tmp->value);
+		//============================== !  Тут дополнительный перенос !===============================
 		arr[i] = ft_strjoin(tmp_str, "\n");
 		tmp = tmp->next;
 		i++;

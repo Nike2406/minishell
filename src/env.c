@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 18:45:45 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 20:25:29 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,13 @@ void	get_environment(char **env, t_shell *minishell)
 {
 	char	**tmp;
 	int		i;
-	// int j = 0;
 
 	i = 0;
-	// char	*tmp2;
 	while (env[i])
 	{
 		tmp = ft_split(env[i], '=');
-		// tmp2 = malloc(ft_strlen(tmp[1]));
-		// while (tmp[1][j] != '\n')
-		// {
-		// 	tmp2[j] = tmp[1][j];
-		// 	j++;
-		// }
 		ft_lstadd_back_minishell(&minishell->environment, \
-			ft_lstnew_minishell(tmp[0], tmp[1]));
+			ft_lstnew_minishell(tmp[0], ft_strtrim(tmp[1], "\n")));
 		i++;
 		free(tmp);
 	}

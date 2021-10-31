@@ -83,6 +83,16 @@ int	shell_executor(t_shell *minishell)
 			dup2(minishell->apps->fd[1], 1);
 			close(minishell->apps->fd[0]);
 		}
+
+		// int x = 0;
+		// char **y = get_arr_env(minishell->environment);
+		// while (y[x])
+		// {
+		// 	printf("[%s]\n", y[x++]);
+		// }
+
+
+		//============================== !  Тут дополнительный перенос !===============================
 		execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment));
 		executing_error(minishell);
 		exit(127);
