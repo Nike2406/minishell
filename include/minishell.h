@@ -38,8 +38,8 @@
 
 typedef struct s_envp
 {
-	 char			*key;
-	 char			*value;
+	char			*key;
+	char			*value;
 	struct s_envp	*next;
 	struct s_envp	*prev;
 }	t_envp;
