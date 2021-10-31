@@ -19,7 +19,7 @@ int	minishell_parser(t_shell *minishell)
 			return (0);
 		else if (minishell->input[i] == ' ' || minishell->input[i] == '\t'
 				|| minishell->input[i] == 0)
-			minishell->input = split_into_arguments(minishell, &i);
+			split_into_arguments(minishell, &i);
 		else if (tokens_handler(minishell, &i))
 			return (0);
 		else if (wildcards_handler(minishell, &i))
@@ -32,15 +32,15 @@ int	minishell_parser(t_shell *minishell)
 
 void	initialization(t_shell *minishell, int argc, char **argv)
 {
-		/*
-	Стартовая и разовая инициализация всякого мусора запихать в одну функцию,
-	например, сигналы:
 	signal(SIGINT, sighandler);
-	*/
+	signal(SIGTERM, SIG_IGN);
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->child_exit_status = 0;
 	minishell->apps = NULL;
+	minishell->fd0_source = dup(0);
+	minishell->fd1_source = dup(1);
+	minishell->fd2_source = dup(2);
 }
 
 int	main(int argc, char **argv, char **envp)

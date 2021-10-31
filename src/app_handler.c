@@ -7,11 +7,12 @@ t_prog	*new_application(void)
 	tmp = (t_prog *)malloc(sizeof(t_prog));
 	tmp->argc = 0;
 	tmp->argv = NULL;
-	tmp->is_argv = 0;
+	tmp->is_argv = 0; // is used for asterisk (not to expand argv[0])
 	tmp->token = 0;
 	tmp->output_file = NULL;
 	tmp->input_file = NULL;
 	tmp->heredoc = NULL;
+	tmp->do_not_launch = 0;
 	tmp->head = tmp;
 	tmp->next = NULL;
 	return (tmp);

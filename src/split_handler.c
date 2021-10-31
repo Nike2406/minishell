@@ -226,8 +226,8 @@ static int	split_into_output_file(t_shell *minishell, int *i)
 		minishell->apps->fd_output_file = open(minishell->apps->output_file, O_WRONLY | O_CREAT, 0644);
 	else
 		minishell->apps->fd_output_file = open(minishell->apps->output_file, O_RDWR | O_CREAT | O_APPEND, 0644);
-	if (minishell->apps->fd_input_file == -1)
-		return (standard_error(minishell, minishell->apps->input_file));
+	if (minishell->apps->fd_output_file == -1)
+		return (standard_error(minishell, minishell->apps->output_file));
 	minishell->apps->token = 0;
 	return (0);
 }
@@ -252,15 +252,16 @@ static int	split_into_input_file(t_shell *minishell, int *i)
 
 static int	split_into_heredoc(t_shell *minishell, int *i)
 {
+printf("ere?\n");
 	char	*eof;
-
 	eof = NULL;
 	if (minishell->apps->heredoc != NULL)
 		free(minishell->apps->heredoc);
 	minishell->apps->heredoc = ft_substr(minishell->input, 0, *i);
 	if (minishell->apps->heredoc == NULL)
 		return (standard_error(minishell, NULL));
-	pipe(minishell->apps->fd); // нужна проверка
+	if (pipe(minishell->apps->fd))
+		return (standard_error(minishell, NULL));
 	while (1)
 	{
 		eof = readline("> ");
@@ -274,11 +275,12 @@ static int	split_into_heredoc(t_shell *minishell, int *i)
 		free(eof);
 	}
 	close(minishell->apps->fd[1]);
+	dup2(minishell->apps->fd[0], minishell->apps->fd_input_file);
 	minishell->apps->token = 0;
 	return (0);
 }
 
-char	*split_into_arguments(t_shell *minishell, int *i) // переработать на возврат 0 или 1
+int	split_into_arguments(t_shell *minishell, int *i)
 {
 	char	*ret;
 
@@ -299,7 +301,7 @@ char	*split_into_arguments(t_shell *minishell, int *i) // переработат
 		ret = ft_strdup(minishell->input + *i + 1);
 	(*i) = -1;
 	free(minishell->input);
-
+	minishell->input = ret;
 	// int check = 0;
 	// printf("argc=%d\n", minishell->apps->argc);
 	// while (check < minishell->apps->argc)
@@ -310,5 +312,5 @@ char	*split_into_arguments(t_shell *minishell, int *i) // переработат
 	// printf("argv[%d]=[%s]\n", check, minishell->apps->argv[check]);
 	// printf("ret = [%s]\n", ret);
 
-	return (ret);
+	return (0);
 }

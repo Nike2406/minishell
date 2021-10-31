@@ -11,3 +11,6 @@ push_swap.dSYM
 test.c
 .vscode/
 src/NEED?exec.c
+minishell_test.txt
+TEST(HUAWEI).c
+src/OLD_executor.c
