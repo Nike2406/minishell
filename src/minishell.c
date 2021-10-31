@@ -53,7 +53,6 @@ void	initialization(t_shell *minishell, int argc, char **argv)
 int	main(int argc, char **argv, char **envp)
 {
 	t_shell minishell;
-	
 	get_environment(envp, &minishell);
 	initialization(&minishell, argc, argv);
 	while (1)
