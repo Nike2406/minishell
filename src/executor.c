@@ -72,6 +72,7 @@ int	shell_executor(t_shell *minishell)
 	pid = fork();
 	if (pid == 0)
 	{
+		check_shlvl(minishell);
 		if (minishell->apps->output_file != NULL)
 			dup2(minishell->apps->fd_output_file, 1); // надо закрывать, если произошла ошибка исполнения программы?
 		if (minishell->apps->input_file != NULL || minishell->apps->heredoc != NULL)

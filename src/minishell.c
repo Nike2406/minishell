@@ -46,7 +46,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell minishell;
 	get_environment(envp, &minishell);
 	rl_outstream = stderr;
-	check_shlvl(&minishell);
 	initialization(&minishell, argc, argv);
 	base_signal();
 	while (1)

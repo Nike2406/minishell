@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/25 21:30:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:17:39 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,6 @@ int	get_export(t_shell *minishell, char **str)
 
 	if (!ft_strncmp("export", str[0], 7))
 	{
-		// int i = 0;
-		// while (str[i])
-		// {
-		// 	printf("%s\n", str[i]);
-		// 	i++;
-		// }
-
 		if (str[1])
 		{
 			if (check_export(str, minishell->environment))
