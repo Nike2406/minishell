@@ -56,6 +56,7 @@ typedef struct s_prog
 	int				fd_input_file;
 	char			*heredoc;
 	int				fd[2];
+	int				do_not_launch;
 	struct s_prog	*head;
 	struct s_prog	*next;
 }	t_prog;
@@ -90,17 +91,17 @@ typedef struct s_temp
 }			t_temp;
 
 
-//void	sighandler(int sig);
+void	sighandler(int sig);
 void	add_application(t_shell *minishell);
 int		single_quote(t_shell *minishell, int *i);
 int		double_quote(t_shell *minishell, int *i);
 char	*dollar(t_shell *minishell, int *i);
 int		space_cut_begin(t_shell *minishell);
 char	**expand_argv(t_shell *minishell, int *i);
-char	*split_into_arguments(t_shell *minishell, int *i);
+int		split_into_arguments(t_shell *minishell, int *i);
 int		tokens_handler(t_shell *minishell, int *i);
 int		wildcards_handler(t_shell *minishell, int *i);
-void	minishell_executor(t_shell *minishell);
+int		minishell_executor(t_shell *minishell);
 void	garbage_collector(t_shell *minishell);
 int		syntax_error(t_shell *minishell, const char *token, int len);
 int		standard_error(t_shell *minishell, char *arg_name);

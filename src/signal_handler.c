@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:45:59 by signacia          #+#    #+#             */
-/*   Updated: 2021/10/25 21:30:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 10:15:34 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,7 @@
 
 void sighandler(int sig)
 {
-	printf("Получен сигнал %d. Необходима обработка.\n", sig);
+	(void)sig;
+	printf("\b\br\n");
+	printf("\e[0;32mminishell$\e[0;39m ");
 }
