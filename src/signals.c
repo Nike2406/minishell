@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:37:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 14:50:54 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 16:14:39 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ void	base_signal(void)
 
 void	input_eof(void)
 {
-	// write(2, "\n", 1);
-	// rl_replace_line("exit\n", 0);
-	printf("exit\n"); // костыль?
-	// rl_on_new_line();
+	write(2, "exit\n", 5);
 	exit(0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:46:16 by signacia          #+#    #+#             */
-/*   Updated: 2021/10/22 19:38:30 by signacia         ###   ########.fr       */
+/*   Updated: 2021/10/31 16:30:25 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static char	*dollar_env(t_shell *minishell, int *i, int j)
 		(*i)++;
 	tmp = ft_substr(minishell->input, 0, j);
 	tmp2 = ft_substr(minishell->input, j + 1, *i - j - 1);
-	env_value = ft_getenv(minishell->environment, tmp2);
+	env_value = ft_getenv_value(minishell->environment, tmp2);
 	tmp3 = ft_strdup(minishell->input + *i);
 	*i += ft_strlen(env_value) - ft_strlen(tmp2) - 2;
 	free(tmp2);

@@ -7,8 +7,8 @@ char	*get_prog_name(t_shell *minishell)
 	struct dirent	*tmp;
 	char			*ret;
 	char			**paths;
-	
-	paths = ft_split(ft_getenv(minishell->environment, "PATH"), ':');
+
+	paths = ft_split(ft_getenv_value(minishell->environment, "PATH"), ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -70,10 +70,10 @@ void	minishell_executor(t_shell *minishell)
 				dup2(minishell->apps->fd_input_file, 0); // если файл не найден, то запуска быть не должно; надо закрывать, если произошла ошибка исполнения программы?
 			if (minishell->apps->heredoc != NULL)
 				dup2(minishell->apps->fd[0], 0);
-			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment)); 
+			execve(get_prog_name(minishell), minishell->apps->argv, get_arr_env(minishell->environment));
 			executing_error(minishell);
 			// printf("Программа %s на сработала, ошибка %s\n", minishell->apps->argv[0], strerror(errno));
-			exit(errno); // нужен ли errno? smells 
+			exit(errno); // нужен ли errno? smells
 		}
 		waitpid(-1, NULL, 0); // ожидание окончания дочернего процесса
 		if (minishell->apps->next == NULL)

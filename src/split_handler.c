@@ -117,7 +117,7 @@ static char	**search_matches(t_shell *minishell, int *i, t_asterisk	*astr)
 	if (pattern[0] == '/')
 		return (lonely_pattern(pattern, astr));
 	ret = NULL;
-	astr->dir = opendir(ft_getenv(minishell->environment, "PWD"));
+	astr->dir = opendir(ft_getenv_value(minishell->environment, "PWD"));
 	if (astr->dir != NULL)
 	{
 		compare_matches(astr, pattern, &ret);

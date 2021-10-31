@@ -52,7 +52,6 @@ int	main(int argc, char **argv, char **envp)
 	base_signal();
 	while (1)
 	{
-		// signal(SIGQUIT, cntrl_slash);
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
 		if (!(minishell.input))
 			input_eof();
@@ -64,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(minishell.input);
 		if (minishell_parser(&minishell))
 			minishell_executor(&minishell);
+		check_shlvl(&minishell);
 		garbage_collector(&minishell);
 	}
 }

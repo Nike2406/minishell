@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/25 21:30:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 16:24:08 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	get_env(t_shell *minishell, char **str)
 	return (1);
 }
 
-char	*ft_getenv(t_envp *lst, char *key)
+char	*ft_getenv_value(t_envp *lst, char *key)
 {
 	t_envp	*tmp;
 
@@ -57,3 +57,6 @@ char	*ft_getenv(t_envp *lst, char *key)
 	}
 	return ("");
 }
+
+// void	change_env_value(t_envp *lst, char *key, char *value)
+
