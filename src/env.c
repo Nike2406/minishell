@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 18:19:41 by prochell         ###   ########.fr       */
+/*   Updated: 2021/10/31 18:45:45 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,19 @@ void	get_environment(char **env, t_shell *minishell)
 {
 	char	**tmp;
 	int		i;
+	// int j = 0;
 
 	i = 0;
+	// char	*tmp2;
 	while (env[i])
 	{
 		tmp = ft_split(env[i], '=');
+		// tmp2 = malloc(ft_strlen(tmp[1]));
+		// while (tmp[1][j] != '\n')
+		// {
+		// 	tmp2[j] = tmp[1][j];
+		// 	j++;
+		// }
 		ft_lstadd_back_minishell(&minishell->environment, \
 			ft_lstnew_minishell(tmp[0], tmp[1]));
 		i++;
@@ -30,7 +38,7 @@ void	get_environment(char **env, t_shell *minishell)
 
 int	get_env(t_shell *minishell, char **str)
 {
-	if (!ft_strncmp("env", str[0], 4))
+	if (!ft_strcmp("env", str[0]))
 	{
 		t_envp	*env_tmp;
 		env_tmp = minishell->environment;
@@ -51,13 +59,9 @@ char	*ft_getenv_value(t_envp *lst, char *key)
 	tmp = lst;
 	while (tmp)
 	{
-		// printf("%s\n", tmp->key);
 		if (!ft_strcmp(key, tmp->key))
 			return (tmp->value);
 		tmp = tmp->next;
 	}
 	return ("");
 }
-
-// void	change_env_value(t_envp *lst, char *key, char *value)
-
