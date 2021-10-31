@@ -32,8 +32,6 @@ int	minishell_parser(t_shell *minishell)
 
 void	initialization(t_shell *minishell, int argc, char **argv)
 {
-	signal(SIGINT, sighandler);
-	signal(SIGTERM, SIG_IGN);
 	minishell->argc = argc;
 	minishell->argv = argv;
 	minishell->child_exit_status = 0;

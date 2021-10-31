@@ -8,7 +8,7 @@ char	*get_prog_name(t_shell *minishell)
 	char	**paths;
 
 	ret = minishell->apps->argv[0];
-	paths = ft_split(ft_getenv(minishell->environment, "PATH"), ':');
+	paths = ft_split(ft_getenv_value(minishell->environment, "PATH"), ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -24,8 +24,8 @@ char	*get_prog_name(t_shell *minishell)
 	return (ret);
 }
 
-// static int	builtin_exec(t_shell *minishell)
-// {
+static int	builtin_exec(t_shell *minishell)
+{
 // 		if (minishell->apps->output_file != NULL)
 // 			dup2(minishell->apps->fd_output_file, 1); // надо закрывать, если произошла ошибка исполнения программы?
 // 		if (minishell->apps->input_file != NULL || minishell->apps->heredoc != NULL)
@@ -37,22 +37,22 @@ char	*get_prog_name(t_shell *minishell)
 // 			close(minishell->apps->fd[0]);
 // 		}
 
-// 	if (get_pwd(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_echo(minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_cd(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_env(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_export(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_unset(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	else if (get_exit(minishell, minishell->apps->argv) < 1)
-// 		return (1);
-// 	return (0);
-// }
+	if (get_pwd(minishell, minishell->apps->argv) < 1)
+		return (1);
+	else if (get_echo(minishell->apps->argv) < 1)
+		return (1);
+	else if (get_cd(minishell, minishell->apps->argv) < 1)
+		return (1);
+	else if (get_env(minishell, minishell->apps->argv) < 1)
+		return (1);
+	else if (get_export(minishell, minishell->apps->argv) < 1)
+		return (1);
+	else if (get_unset(minishell, minishell->apps->argv) < 1)
+		return (1);
+	else if (get_exit(minishell, minishell->apps->argv) < 1)
+		return (1);
+	return (0);
+}
 
 int	shell_pre_executor(t_shell *minishell)
 {
@@ -158,8 +158,8 @@ int	minishell_executor(t_shell *minishell)
 			}
 		}
 		shell_pre_executor(minishell);
-		// if (builtin_exec(minishell));
-		// else
+		if (builtin_exec(minishell));
+		else
 			shell_executor(minishell);
 		shell_post_executor(minishell);
 		if (minishell->apps->next == NULL)
