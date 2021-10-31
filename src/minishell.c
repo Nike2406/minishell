@@ -1,11 +1,5 @@
 #include "minishell.h"
 
-void	input_eof(void)
-{
-	printf("\b\bexit\n"); // костыль?
-	exit(0);
-}
-
 int	minishell_parser(t_shell *minishell)
 {
 	int	i;
@@ -16,8 +10,7 @@ int	minishell_parser(t_shell *minishell)
 	if (minishell->input == NULL)
 		return (0);
 	add_application(minishell);
-	while (minishell->input)
-	{
+	while (minishell->input)	{
 		if (minishell->input[i] == '$')
 			minishell->input = dollar(minishell, &i);
 		else if (single_quote(minishell, &i))
@@ -54,10 +47,11 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_shell minishell;
 	get_environment(envp, &minishell);
+	rl_outstream = stderr;
 	initialization(&minishell, argc, argv);
+	base_signal();
 	while (1)
 	{
-		signal(SIGINT, cntrl_c);
 		// signal(SIGQUIT, cntrl_slash);
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");
 		if (!(minishell.input))

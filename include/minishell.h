@@ -149,4 +149,7 @@ int		ft_error_unset(int i, char *str);
 void	check_list(t_envp *list);
 char	**get_arr_env(t_envp *env);
 
+void	base_signal(void);
+void	input_eof(void);
+
 #endif
