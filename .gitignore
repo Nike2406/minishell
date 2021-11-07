@@ -9,7 +9,6 @@ push_swap.dSYM
 *.gch
 *.out
 test.c
-.vscode/
 src/NEED?exec.c
 minishell_test.txt
 TEST(HUAWEI).c
