@@ -21,7 +21,7 @@ HDR    =	libft.h
 
 CC     =	gcc
 
-CFLAGS =	-Wall -Wextra -Werror
+CFLAGS =	-Wall -Wextra -Werror -g
 
 .c.o:
 			$(CC) $(CFLAGS) -c $^ -o $@

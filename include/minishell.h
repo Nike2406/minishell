@@ -155,4 +155,6 @@ void	input_eof(void);
 
 void	check_shlvl(t_shell *minishell);
 
+char	**ft_split_once(char *str, char ch);
+
 #endif

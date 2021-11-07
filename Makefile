@@ -4,12 +4,13 @@ SRC    :=	minishell.c quotes_handler.c \
 			garbage_collector.c tokens_handler.c errors_handler.c \
 			app_handler.c wildcards_handler.c exit.c \
 			unset.c export_utils.c utils.c export.c cd.c echo.c \
-			errors.c pwd.c lst_functions.c env.c shlvl.c signals.c
+			errors.c pwd.c lst_functions.c env.c shlvl.c signals.c \
+			ft_split_once.c
 
 OBJ    :=	$(SRC:.c=.o)
 HDR    :=	minishell.h
 CC     :=	gcc
-CFLAGS :=	-Wall -Wextra -Werror -MMD
+CFLAGS :=	-Wall -Wextra -Werror -MMD -g
 VPATH  :=	src include
 
 all:		$(NAME)
