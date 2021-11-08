@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 17:24:35 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 18:53:15 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:31:09 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_outstream = stderr;
 	initialization(&minishell, argc, argv);
 	base_signal();
-	check_shlvl(&minishell);
+	// check_shlvl(&minishell);
 	while (1)
 	{
 		minishell.input = readline("\e[0;32mminishell$\e[0;39m ");

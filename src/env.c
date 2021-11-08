@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/08 19:19:59 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:24:38 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,10 @@ char	*ft_getenv_value(t_envp *lst, char *key)
 	tmp = lst;
 	while (tmp)
 	{
-		// printf("%s\n", tmp->key);
 		if (!ft_strcmp(key, tmp->key))
 			return (tmp->value);
 		tmp = tmp->next;
 	}
 	return ("");
 }
-
-// void	change_env_value(t_envp *lst, char *key, char *value)
 

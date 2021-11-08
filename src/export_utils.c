@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:46:17 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/07 22:02:44 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:23:09 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,6 @@ int	check_export_dup(t_envp *env, char **arr)
 	return (1);
 }
 
-// void	check_export_chars(char *str)
-// {
-
-// }
-
 int	check_export(char **str, t_envp *env)
 {
 	int		i;
@@ -62,7 +57,6 @@ int	check_export(char **str, t_envp *env)
 	char	**arr;
 
 	i = 1;
-	// arr = NULL;
 	while (str[i])
 	{
 		j = 0;
@@ -74,7 +68,6 @@ int	check_export(char **str, t_envp *env)
 			{
 				ft_error_export(EXPORT_NOT_VALID, str[i]);
 				i++;
-				// free(arr);
 				break;
 			}
 			j++;

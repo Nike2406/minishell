@@ -76,6 +76,7 @@ int	shell_executor(t_shell *minishell)
 	pid = fork();
 	if (pid == 0)
 	{
+		check_shlvl(minishell);
 		if (minishell->apps->token == TOKEN_PIPE && minishell->apps->output_file == NULL)
 		{
 			dup2(minishell->apps->fd[1], 1);
