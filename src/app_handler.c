@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   app_handler.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/08 16:05:01 by signacia          #+#    #+#             */
+/*   Updated: 2021/11/08 16:05:02 by signacia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_prog	*new_application(void)
@@ -7,7 +19,7 @@ t_prog	*new_application(void)
 	tmp = (t_prog *)malloc(sizeof(t_prog));
 	tmp->argc = 0;
 	tmp->argv = NULL;
-	tmp->is_argv = 0; // is used for asterisk (not to expand argv[0])
+	tmp->is_argv = 0;
 	tmp->token = 0;
 	tmp->output_file = NULL;
 	tmp->input_file = NULL;

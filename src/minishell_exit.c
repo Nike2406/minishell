@@ -1,24 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_handler.c                                :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 16:05:46 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 16:06:03 by signacia         ###   ########.fr       */
+/*   Created: 2021/10/12 19:56:00 by prochell          #+#    #+#             */
+/*   Updated: 2021/10/31 19:41:42 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wildcards_handler(t_shell *minishell, int *i)
+int	get_exit(t_shell *minishell, char **str)
 {
-	if (minishell->input[*i] == '*' && minishell->apps->is_argv == 1
-		&& minishell->apps->token != TOKEN_HEREDOC
-		&& minishell->apps->token != TOKEN_REDIRECT_INPUT
-		&& minishell->apps->token != TOKEN_REDIRECT_OUTPUT
-		&& minishell->apps->token != TOKEN_REDIRECT_OUTPUT_APPEND)
-		minishell->apps->token = WILDCARD_ASTERISK;
-	return (0);
+	int	len;
+
+	if (!ft_strcmp("exit", str[0]))
+	{
+		len = 0;
+		while (str[len])
+			len++;
+		if (len > 2)
+		{
+			write(2, "minishell: exit: too many arguments\n", 36);
+			minishell->child_exit_status = 1;
+			return (1);
+		}
+		else if (len == 2)
+			exit(ft_atoi(str[len - 1]));
+		exit(0);
+	}
+	return (1);
 }

@@ -1,20 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal_handler.c                                   :+:      :+:    :+:   */
+/*   split_into_asterisk_u.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/06 15:45:59 by signacia          #+#    #+#             */
-/*   Updated: 2021/10/31 10:15:34 by signacia         ###   ########.fr       */
+/*   Created: 2021/11/08 16:05:10 by signacia          #+#    #+#             */
+/*   Updated: 2021/11/08 16:05:11 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void sighandler(int sig)
+char	**lonely_pattern(char *pattern, t_aster	*astr)
 {
-	(void)sig;
-	printf("\b\br\n");
-	printf("\e[0;32mminishell$\e[0;39m ");
+	char	**ret;
+
+	ret = (char **)malloc(sizeof(char *) * 2);
+	ret[0] = pattern;
+	ret[1] = NULL;
+	astr->argc++;
+	return (ret);
+}
+
+t_aster	create_astr(void)
+{
+	t_aster	astr;
+
+	astr.dir = NULL;
+	astr.cmp = NULL;
+	astr.k = 0;
+	astr.j = 0;
+	astr.argc = 0;
+	return (astr);
 }

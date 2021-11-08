@@ -56,6 +56,7 @@ typedef struct s_prog
 	int				fd_input_file;
 	char			*heredoc;
 	int				fd[2];
+	int				fd_heredoc[2];
 	int				do_not_launch;
 	struct s_prog	*head;
 	struct s_prog	*next;
@@ -63,25 +64,25 @@ typedef struct s_prog
 
 typedef struct s_shell
 {
-	char	*input; // считанная строка
-	int		child_exit_status; // для $?
-	int		fd0_source; // хранить 0-ой фд
-	int		fd1_source; // хранить 1-ой фд
-	int		fd2_source; // хранить 2-ой фд
+	char	*input;
+	int		child_exit_status;
+	int		fd0_source;
+	int		fd1_source;
+	int		fd2_source;
 	t_prog	*apps;
 	t_envp	*environment;
-	int		argc;		// junk;
-	char	**argv;		// junk;
+	int		argc;
+	char	**argv;
 }			t_shell;
 
-typedef struct s_asterisk
+typedef struct s_aster
 {
 	DIR				*dir;
 	struct dirent	*cmp;
 	int				k;
 	int				j;
 	int				argc;
-}					t_asterisk;
+}					t_aster;
 
 typedef struct s_temp
 {
@@ -90,18 +91,22 @@ typedef struct s_temp
 	char	*tmp3;
 }			t_temp;
 
-
-void	sighandler(int sig);
 void	add_application(t_shell *minishell);
 int		single_quote(t_shell *minishell, int *i);
 int		double_quote(t_shell *minishell, int *i);
 char	*dollar(t_shell *minishell, int *i);
-int		space_cut_begin(t_shell *minishell);
-char	**expand_argv(t_shell *minishell, int *i);
-int		split_into_arguments(t_shell *minishell, int *i);
+void	expand_argv(t_shell *minishell, int *i);
+int		split_input(t_shell *minishell, int *i);
+void	split_into_asterisk(t_shell *minishell, int *i);
+t_aster	create_astr(void);
+char	**lonely_pattern(char *pattern, t_aster	*astr);
 int		tokens_handler(t_shell *minishell, int *i);
+int		handle_or(t_shell *minishell, int *i);
+int		heredoc(t_shell *minishell, int *i);
+int		single_ampersand(t_shell *minishell, int *i);
+int		double_ampersand(t_shell *minishell, int *i);
 int		wildcards_handler(t_shell *minishell, int *i);
-int		minishell_executor(t_shell *minishell);
+void	minishell_executor(t_shell *minishell);
 void	garbage_collector(t_shell *minishell);
 int		syntax_error(t_shell *minishell, const char *token, int len);
 int		standard_error(t_shell *minishell, char *arg_name);
@@ -154,5 +159,6 @@ void	base_signal(void);
 void	input_eof(void);
 
 void	check_shlvl(t_shell *minishell);
+char	**ft_split_once(char *str, char ch);
 
 #endif
