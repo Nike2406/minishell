@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/11/08 17:24:03 by signacia          #+#    #+#             */
+/*   Updated: 2021/11/08 17:24:17 by signacia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	single_quote(t_shell *minishell, int *i)
@@ -40,7 +52,7 @@ int	double_quote(t_shell *minishell, int *i)
 			if (minishell->input[*i] == '\"')
 				break ;
 			else if (minishell->input[*i] == '$'
-					&& minishell->input[*i + 1] != '\"')
+				&& minishell->input[*i + 1] != '\"')
 				minishell->input = dollar(minishell, i);
 		}
 		if (minishell->input[*i] == 0)

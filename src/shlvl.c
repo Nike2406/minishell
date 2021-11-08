@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 16:17:24 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/06 14:49:16 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:43:20 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	check_shlvl(t_shell *minishell)
 
 	shlvl = ft_atoi(ft_getenv_value(minishell->environment, "SHLVL"));
 	tmp = minishell->environment;
+	// if (!minishell->input)
+	// 	return ;
 	if (shlvl < 0)
 	{
 		while (tmp)

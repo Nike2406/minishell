@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 19:46:17 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/07 22:02:44 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:42:55 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ int	check_export(char **str, t_envp *env)
 			{
 				ft_error_export(EXPORT_NOT_VALID, str[i]);
 				i++;
-				// free(arr);
 				break;
 			}
 			j++;

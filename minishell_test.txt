@@ -8,25 +8,15 @@ echo ./*/				отображает только видимые директори
 
 если много форков		shell: fork: Resource temporarily unavailable
 
-ls | wc -l
 cat << 4 << 6 << 3 > 1 | cat < abc >> 2 | wc -l << 4 > 3 | wc -l << 1 cat > abc | pwd >> abc
 
-
+export a= 'ls -la' должна быть ошибка
 echo ** DJIDDVJJ*** Vvc** 8 *VUVJ8jVJ * *JVJV* JV *vJ*
 echo $LANG+$KLJ+'$PWD'+"$HOME"+"'$SHLVL'"=$COLORTERM
 
-TODO:export a= 'ls -la' ; $a - должен запускаться: ls -la
-TODO:export a="123"      echo $a | wc
 TODO:закрытие лишних fd
 
 echo < 7 | wc		при отсутствии файла апп не запускается, но срабатывает следующий
+ls < 4 | ls < 5
+export | wc
 lsof -cminishell проверить открытые файловые дескрипторы
-
-
-В первом случае пайп считается как просто символ, во втором случае -n считается как параметр
-bash-3.2$ export a="| 2 3"
-bash-3.2$ echo $a
-| 2 3
-bash-3.2$ export a="-n 2 3"
-bash-3.2$ echo $a
-2 3bash-3.2$ echo $a

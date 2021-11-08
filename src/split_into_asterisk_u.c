@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards_handler.c                                :+:      :+:    :+:   */
+/*   split_into_asterisk_u.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/08 16:05:46 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 16:06:03 by signacia         ###   ########.fr       */
+/*   Created: 2021/11/08 16:05:10 by signacia          #+#    #+#             */
+/*   Updated: 2021/11/08 16:05:11 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	wildcards_handler(t_shell *minishell, int *i)
+char	**lonely_pattern(char *pattern, t_aster	*astr)
 {
-	if (minishell->input[*i] == '*' && minishell->apps->is_argv == 1
-		&& minishell->apps->token != TOKEN_HEREDOC
-		&& minishell->apps->token != TOKEN_REDIRECT_INPUT
-		&& minishell->apps->token != TOKEN_REDIRECT_OUTPUT
-		&& minishell->apps->token != TOKEN_REDIRECT_OUTPUT_APPEND)
-		minishell->apps->token = WILDCARD_ASTERISK;
-	return (0);
+	char	**ret;
+
+	ret = (char **)malloc(sizeof(char *) * 2);
+	ret[0] = pattern;
+	ret[1] = NULL;
+	astr->argc++;
+	return (ret);
+}
+
+t_aster	create_astr(void)
+{
+	t_aster	astr;
+
+	astr.dir = NULL;
+	astr.cmp = NULL;
+	astr.k = 0;
+	astr.j = 0;
+	astr.argc = 0;
+	return (astr);
 }
