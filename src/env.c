@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 16:55:48 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/08 19:19:59 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_environment(char **env, t_shell *minishell)
 	{
 		tmp = ft_split(env[i], '=');
 		ft_lstadd_back_minishell(&minishell->environment, \
-			ft_lstnew_minishell(tmp[0], tmp[1]));
+			ft_lstnew_minishell(tmp[0], ft_strtrim(tmp[1], "\n")));
 		i++;
 		free(tmp);
 	}
