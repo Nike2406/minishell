@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_executor.c                               :+:      :+:    :+:   */
+/*   exec_apps.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:41:29 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/10 19:51:32 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,26 +48,33 @@ int	shell_executor2(t_shell *minishell)
 	return (0);
 }
 
-static void	shell_executor(t_shell *minishell)
+static int	shell_executor(t_shell *minishell)
 {
 	if (minishell->apps->token == IS_PIPE)
-		shell_executor2(minishell);
+	{
+		if (shell_executor2(minishell))
+			return (1);
+	}
 	else if (get_pwd(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_echo(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_cd(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_env(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_export(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_unset(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else if (get_exit(minishell, minishell->apps->argv) < 1)
-		return ;
+		return (0);
 	else
-		shell_executor2(minishell);
+	{
+		if (shell_executor2(minishell))
+			return (1);
+	}
+	return (0);
 }
 
 void	minishell_executor(t_shell *minishell)
@@ -80,7 +87,8 @@ void	minishell_executor(t_shell *minishell)
 	{
 		minishell_pre_executor(minishell);
 		if (minishell->apps->do_not_launch == 0)
-			shell_executor(minishell);
+			if (shell_executor(minishell))
+				break ;
 		minishell_post_executor(minishell);
 		if (minishell->apps->next == NULL || (minishell->apps->token
 				== TOKEN_OR && minishell->child_exit_status == 0)
