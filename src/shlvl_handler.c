@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 16:17:24 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/08 19:30:56 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/09 19:27:02 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,26 @@ void	check_shlvl(t_shell *minishell)
 	t_envp	*tmp;
 	int		shlvl;
 
-
-	shlvl = ft_atoi(ft_getenv_value(minishell->environment, "SHLVL"));
 	tmp = minishell->environment;
-	// if (!minishell->input)
-	// 	return ;
-	if (shlvl < 0)
+	while (1)
 	{
-		while (tmp)
+		if (!tmp)
 		{
-			if (!(ft_strcmp(tmp->key, "SHLVL")))
-			{
-				tmp->value = "0";
-				break;
-			}
-			tmp = tmp->next;
+			ft_lstadd_back_minishell(&minishell->environment,
+				ft_lstnew_minishell(ft_strdup("SHLVL"), ft_strdup("1")));
+			break ;
 		}
-	}
-	else if (!(ft_strcmp(minishell->apps->argv[0], "./minishell")))
-	{
-		while (tmp)
+		else if (!(ft_strcmp(tmp->key, "SHLVL")))
 		{
-			if (!(ft_strcmp(tmp->key, "SHLVL")))
-			{
-				tmp->value = ft_itoa(ft_atoi(tmp->value) + 1);
-				break;
-			}
-			tmp = tmp->next;
+			shlvl = ft_atoi(tmp->value);
+			if (tmp->value != NULL)
+				free(tmp->value);
+			if (shlvl < 0)
+				tmp->value = ft_strdup("0");
+			else
+				tmp->value = ft_itoa(shlvl + 1);
+			break ;
 		}
+		tmp = tmp->next;
 	}
 }

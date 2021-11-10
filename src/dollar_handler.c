@@ -6,13 +6,13 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:46:16 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 16:03:44 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:18:11 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*dollar_child_status(t_shell *minishell, int *i, int j)
+static int	dollar_child_status(t_shell *minishell, int *i, int j)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -25,17 +25,18 @@ static char	*dollar_child_status(t_shell *minishell, int *i, int j)
 	tmp2 = ft_strjoin_free(tmp2, tmp3);
 	tmp = ft_strjoin_free(tmp, tmp2);
 	free(minishell->input);
+	minishell->input = tmp;
 	*i += j - 2;
-	return (tmp);
+	return (0);
 }
 
-static char	*dollar_is_space(t_shell *minishell, int *i)
+static int	dollar_is_space(int *i)
 {
 	*i -= 1;
-	return (minishell->input);
+	return (0);
 }
 
-static char	*dollar_cases(t_shell *minishell, int *i, int j)
+static int	dollar_cases(t_shell *minishell, int *i, int j)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -45,10 +46,11 @@ static char	*dollar_cases(t_shell *minishell, int *i, int j)
 	tmp = ft_strjoin_free(tmp, tmp2);
 	free(minishell->input);
 	*i -= 2;
-	return (tmp);
+	minishell->input = tmp;
+	return (0);
 }
 
-static char	*dollar_env(t_shell *minishell, int *i, int j)
+static int	dollar_env(t_shell *minishell, int *i, int j)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -67,10 +69,11 @@ static char	*dollar_env(t_shell *minishell, int *i, int j)
 	free(tmp3);
 	tmp = ft_strjoin_free(tmp, tmp2);
 	free(minishell->input);
-	return (tmp);
+	minishell->input = tmp;
+	return (0);
 }
 
-char	*dollar(t_shell *minishell, int *i)
+int	dollar_handler(t_shell *minishell, int *i)
 {
 	int		j;
 
@@ -78,11 +81,13 @@ char	*dollar(t_shell *minishell, int *i)
 	++(*i);
 	if (minishell->input[*i] == '?')
 		return (dollar_child_status(minishell, i, j));
-	else if (minishell->input[*i] == ' ' || minishell->input[*i] == '\t')
-		return (dollar_is_space(minishell, i));
+	else if (minishell->input[*i] == ' ' || minishell->input[*i] == '\t'
+		|| minishell->input[*i] == '\0')
+		return (dollar_is_space(i));
 	else if (ft_isdigit(minishell->input[*i]) || minishell->input[*i] == '\''
 		|| minishell->input[*i] == '\"')
 		return (dollar_cases(minishell, i, j));
 	else
 		return (dollar_env(minishell, i, j));
+	return (0);
 }

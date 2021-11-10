@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:05:27 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 17:24:54 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	garbage_collector(t_shell *minishell)
 			free(minishell->apps->input_file);
 		if (minishell->apps->heredoc != NULL)
 			free(minishell->apps->heredoc);
-		if (minishell->apps->token == TOKEN_PIPE)
+		if (minishell->apps->token == IS_PIPE && minishell->apps->fd[0] != 0)
 			close(minishell->apps->fd[0]);
 		tmp = minishell->apps;
 		minishell->apps = minishell->apps->next;

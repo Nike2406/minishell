@@ -1,16 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   minishell_unset.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 17:15:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/25 21:30:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:28:01 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_lstdelone_minishell(t_envp *lst)
+{
+	t_envp	*before;
+	t_envp	*after;
+
+	before = NULL;
+	after = NULL;
+	if (!lst)
+		return ;
+	before = lst->prev;
+	after = lst->next;
+	if (lst->prev)
+		before->next = lst->next;
+	if (lst->next)
+		after->prev = lst->prev;
+	free(lst->key);
+	free(lst->value);
+	free(lst);
+}
 
 void	unset_del_elem(t_envp *tmp_exp, char *str, int f)
 {
@@ -18,14 +38,14 @@ void	unset_del_elem(t_envp *tmp_exp, char *str, int f)
 	{
 		if (!ft_strcmp(tmp_exp->key, str))
 		{
-			tmp_exp->prev = ft_lstdelone_minishell(tmp_exp);
-			break;
+			ft_lstdelone_minishell(tmp_exp);
+			break ;
 		}
 		tmp_exp = tmp_exp->next;
 	}
 }
 
-int	check_equal(char **str)
+static int	check_equal(char **str)
 {
 	int	i;
 	int	j;
@@ -45,24 +65,25 @@ int	check_equal(char **str)
 	return (1);
 }
 
-void	check_unset_params(char **str, t_envp *env)
+static void	check_unset_params(t_shell *minishell, char **str)
 {
 	t_envp	*tmp_exp;
-	int	i;
-	int	j;
-	int	f;
+	int		i;
+	int		f;
+	int		j;
 
 	i = 1;
 	while (str[i])
 	{
 		f = 0;
 		j = 0;
-		tmp_exp = env;
-		while ((!(ft_isalpha(str[i][j])) && (str[i][j] != '_')) || !check_equal(str))
+		tmp_exp = minishell->environment;
+		while ((!(ft_isalpha(str[i][j])) && (str[i][j] != '_'))
+				|| !check_equal(str))
 		{
-			ft_error_unset(UNSET_NOT_VALID, str[i]);
+			ft_error_unset(minishell, str[i]);
 			f = 1;
-			break;
+			break ;
 		}
 		unset_del_elem(tmp_exp, str[i], f);
 		i++;
@@ -71,12 +92,11 @@ void	check_unset_params(char **str, t_envp *env)
 
 int	get_unset(t_shell *minishell, char **str)
 {
-	if (!ft_strncmp("unset", str[0], 6))
+	if (!ft_strcmp("unset", str[0]))
 	{
-		if (!str[1])
-			return (0);
-		else
-			check_unset_params(str, minishell->environment);
+		minishell->child_exit_status = 0;
+		if (str[1])
+			check_unset_params(minishell, str);
 		return (0);
 	}
 	return (1);

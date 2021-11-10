@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   minishell_export.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/15 16:32:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/25 21:30:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:31:04 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ void	ft_lst_swap_03(t_envp **swap)
 
 int	sort_export(t_envp **tmp_env)
 {
-	int i;
-	int j;
-	int list_size;
+	int	i;
+	int	j;
+	int	list_size;
 
 	list_size = ft_lstsize((*tmp_env));
 	i = 0;
@@ -106,29 +106,16 @@ int	get_export(t_shell *minishell, char **str)
 {
 	t_envp	*tmp_env;
 
-	if (!ft_strncmp("export", str[0], 7))
+	if (!ft_strcmp("export", str[0]))
 	{
-		// int i = 0;
-		// while (str[i])
-		// {
-		// 	printf("%s\n", str[i]);
-		// 	i++;
-		// }
-
 		if (str[1])
-		{
-			if (check_export(str, minishell->environment))
-				return (1);
-			return (0);
-		}
+			return (check_export(minishell, str));
 		tmp_env = fullfill_env(minishell->environment);
-		if (!sort_export(&tmp_env))
-		{
-			check_list(tmp_env);
-			ft_lstclear_minishell(&tmp_env);
-			return (0);
-		}
+		sort_export(&tmp_env);
+		check_list(tmp_env);
 		ft_lstclear_minishell(&tmp_env);
+		minishell->child_exit_status = 0;
+		return (0);
 	}
 	return (1);
 }

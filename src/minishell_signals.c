@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:37:20 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 16:14:39 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/10 16:02:57 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,3 @@ void	input_eof(void)
 	write(2, "exit\n", 5);
 	exit(0);
 }
-

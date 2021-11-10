@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 17:23:15 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/08 17:23:16 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	handle_pipe(t_shell *minishell, int *i)
 	ret = NULL;
 	if (*i != 0)
 		expand_argv(minishell, i);
-	minishell->apps->token = TOKEN_PIPE;
+	minishell->apps->token = IS_PIPE;
 	add_application(minishell);
 	while (minishell->input[*i] != 0 && (minishell->input[*i + 1] == ' '
 			|| minishell->input[*i + 1] == '\t'))

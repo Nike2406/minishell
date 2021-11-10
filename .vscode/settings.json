@@ -1,6 +1,11 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"term.h": "c",
+		"history.h": "c",
+		"dirent.h": "c",
+		"readline.h": "c",
+		"types.h": "c"
 	}
 }

@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isalpha.c                                       :+:      :+:    :+:   */
+/*   minishell_pwd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/11/10 18:38:59 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:39:00 by signacia         ###   ########.fr       */
+/*   Created: 2021/09/05 16:28:21 by prochell          #+#    #+#             */
+/*   Updated: 2021/11/10 16:04:25 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_isalpha(int c)
+int	get_pwd(t_shell *minishell, char **str)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
-		return (1);
-	return (0);
+	char	tmp[1000];
+
+	if (!ft_strcmp("pwd", str[0]))
+	{
+		printf("%s\n", getcwd(tmp, sizeof(tmp)));
+		minishell->child_exit_status = 0;
+		return (0);
+	}
+	return (1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/09/15 16:25:16 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/08 20:57:10 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*find_pwd(t_shell *minishell, char *str)
 	tmp = minishell->environment;
 	while (tmp)
 	{
-		if (!ft_strncmp(str, tmp->key, 4))
+		if (!ft_strcmp(str, tmp->key))
 			return (tmp->value);
 		tmp = tmp->next;
 	}
@@ -33,7 +33,7 @@ void	change_old_new_pwd(t_shell *minishell, char *str, char *key)
 	tmp = minishell->environment;
 	while (tmp)
 	{
-		if (!ft_strncmp(key, tmp->key, 7))
+		if (!ft_strcmp(key, tmp->key))
 		{
 			tmp->value = str;
 			return ;
@@ -42,7 +42,7 @@ void	change_old_new_pwd(t_shell *minishell, char *str, char *key)
 	}
 }
 
-void	cd_get_home(t_shell *minishell)
+static int	cd_get_home(t_shell *minishell)
 {
 	t_envp	*tmp;
 	char	*str;
@@ -50,20 +50,20 @@ void	cd_get_home(t_shell *minishell)
 	tmp = minishell->environment;
 	while (tmp)
 	{
-		if (!ft_strncmp("HOME", tmp->key, 5))
+		if (!ft_strcmp("HOME", tmp->key))
 			str = tmp->value;
 		tmp = tmp->next;
 	}
 	change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 	change_old_new_pwd(minishell, str, "PWD");
 	if (chdir(str) != 0)
-	{
-		ft_error_cd_no_file(CD_NO_FILE, str);
-		return ;
-	}
+		ft_error_cd_no_file(minishell, str);
+	else
+		minishell->child_exit_status = 0;
+	return (0);
 }
 
-void	cd_swap(t_shell *minishell, char **str)
+int	cd_swap(t_shell *minishell, char **str)
 {
 	int		i;
 	char	*tmp;
@@ -71,20 +71,18 @@ void	cd_swap(t_shell *minishell, char **str)
 	i = 1;
 	while (str[i])
 	{
-		if (!ft_strncmp("-", str[i], 2))
+		if (!ft_strcmp("-", str[i]))
 		{
 			tmp = find_pwd(minishell, "OLDPWD");
 			change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 			change_old_new_pwd(minishell, tmp, "PWD");
 			if (chdir(tmp) != 0)
-			{
-				ft_error_cd_no_file(CD_NO_FILE, tmp);
-				return ;
-			}
+				return (ft_error_cd_no_file(minishell, tmp));
 		}
-	i++;
+		i++;
 	}
-	return ;
+	minishell->child_exit_status = 0;
+	return (0);
 }
 
 int	get_cd(t_shell *minishell, char **str)
@@ -92,28 +90,23 @@ int	get_cd(t_shell *minishell, char **str)
 	char	*oldpwd;
 	char	*newpwd;
 
-	if (!ft_strncmp("cd", str[0], 3))
+	if (!ft_strcmp("cd", str[0]))
 	{
-		if (!str[1] || !ft_strncmp("~", str[1], 2))
-		{
-			cd_get_home(minishell);
-			return (0);
-		}
+		if (!str[1] || !ft_strcmp("~", str[1]))
+			return (cd_get_home(minishell));
 		oldpwd = getcwd(NULL, 0);
 		if (oldpwd == NULL)
-			return (ft_error_cd(CD_CWD));
+			return (ft_error_cd(minishell));
 		if (!ft_strncmp("-", str[1], 2))
-		{
-			cd_swap(minishell, str);
-			return (0);
-		}
+			return (cd_swap(minishell, str));
 		if (chdir(str[1]) != 0)
-			return (ft_error_cd_no_file(CD_NO_FILE, str[1]));
+			return (ft_error_cd_no_file(minishell, str[1]));
 		newpwd = getcwd(NULL, 0);
 		if (newpwd == NULL)
-			return (ft_error_cd(CD_CWD));
+			return (ft_error_cd(minishell));
 		change_old_new_pwd(minishell, oldpwd, "OLDPWD");
 		change_old_new_pwd(minishell, newpwd, "PWD");
+		minishell->child_exit_status = 0;
 		return (0);
 	}
 	return (1);

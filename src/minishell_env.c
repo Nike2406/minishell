@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/08 19:24:38 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/09 20:58:00 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_environment(char **env, t_shell *minishell)
+void	get_environment(t_shell *minishell, char **env)
 {
 	char	**tmp;
 	int		i;
@@ -21,8 +21,8 @@ void	get_environment(char **env, t_shell *minishell)
 	while (env[i])
 	{
 		tmp = ft_split(env[i], '=');
-		ft_lstadd_back_minishell(&minishell->environment, \
-			ft_lstnew_minishell(tmp[0], ft_strtrim(tmp[1], "\n")));
+		ft_lstadd_back_minishell(&minishell->environment,
+			ft_lstnew_minishell(tmp[0], tmp[1]));
 		i++;
 		free(tmp);
 	}
@@ -30,15 +30,17 @@ void	get_environment(char **env, t_shell *minishell)
 
 int	get_env(t_shell *minishell, char **str)
 {
-	if (!ft_strncmp("env", str[0], 4))
+	t_envp	*env_tmp;
+
+	if (!ft_strcmp("env", str[0]))
 	{
-		t_envp	*env_tmp;
 		env_tmp = minishell->environment;
 		while (env_tmp != NULL)
 		{
 			printf("%s=%s\n", env_tmp->key, env_tmp->value);
 			env_tmp = env_tmp->next;
 		}
+		minishell->child_exit_status = 0;
 		return (0);
 	}
 	return (1);
@@ -57,4 +59,3 @@ char	*ft_getenv_value(t_envp *lst, char *key)
 	}
 	return ("");
 }
-

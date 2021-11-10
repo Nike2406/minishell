@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit.c                                             :+:      :+:    :+:   */
+/*   minishell_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 19:56:00 by prochell          #+#    #+#             */
-/*   Updated: 2021/10/31 19:41:42 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/09 16:33:40 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	get_exit(t_shell *minishell, char **str)
 		{
 			write(2, "minishell: exit: too many arguments\n", 36);
 			minishell->child_exit_status = 1;
-			return (1);
+			return (0);
 		}
 		else if (len == 2)
 			exit(ft_atoi(str[len - 1]));
