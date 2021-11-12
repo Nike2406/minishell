@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:38:10 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:38:11 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 17:50:40 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int		ft_lstsize(t_envp *lst);
 t_envp	*ft_lstfirst_minishell(t_envp *lst);
 void	ft_lstdelone_minishell(t_envp *lst);
 int		ft_error_cd(t_shell *minishell);
+int		ft_error_cd_home_not_set(t_shell *minishell);
 int		ft_error_cd_no_file(t_shell *minishell, char *str);
 int		ft_error_export(t_shell *minishell, char *str);
 int		ft_error_unset(t_shell *minishell, char *str);

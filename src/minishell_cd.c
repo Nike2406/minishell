@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   minishell_cd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/08 20:57:10 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 17:53:02 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static int	cd_get_home(t_shell *minishell)
 			str = tmp->value;
 		tmp = tmp->next;
 	}
+	if (!tmp)
+		return (ft_error_cd_home_not_set(minishell));
 	change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 	change_old_new_pwd(minishell, str, "PWD");
 	if (chdir(str) != 0)

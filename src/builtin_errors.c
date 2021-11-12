@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   errors.c                                           :+:      :+:    :+:   */
+/*   builtin_errors.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:53:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/09 16:52:26 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 17:52:23 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 int	ft_error_cd(t_shell *minishell)
 {
 	perror("minishell: cd");
+	minishell->child_exit_status = 1;
+	return (0);
+}
+
+int	ft_error_cd_home_not_set(t_shell *minishell)
+{
+	char	*str;
+
+	str = "minishell: cd: HOME not set\n";
+	write(2, str, ft_strlen(str));
 	minishell->child_exit_status = 1;
 	return (0);
 }
