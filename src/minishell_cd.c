@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/12 18:24:11 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/12 18:27:12 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static int	cd_get_home(t_shell *minishell)
 	while (tmp)
 	{
 		if (!ft_strcmp("HOME", tmp->key))
+		{
 			str = tmp->value;
+			break;
+		}
 		tmp = tmp->next;
 	}
 	if (!tmp)
