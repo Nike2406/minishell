@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/12 17:53:02 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/12 18:24:11 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	cd_get_home(t_shell *minishell)
 		tmp = tmp->next;
 	}
 	if (!tmp)
-		return (ft_error_cd_home_not_set(minishell));
+		return (ft_error_cd_not_set(minishell, "HOME"));
 	change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 	change_old_new_pwd(minishell, str, "PWD");
 	if (chdir(str) != 0)
@@ -69,6 +69,7 @@ int	cd_swap(t_shell *minishell, char **str)
 {
 	int		i;
 	char	*tmp;
+	char	**tmp_str;
 
 	i = 1;
 	while (str[i])
@@ -76,10 +77,16 @@ int	cd_swap(t_shell *minishell, char **str)
 		if (!ft_strcmp("-", str[i]))
 		{
 			tmp = find_pwd(minishell, "OLDPWD");
+			if (!tmp)
+				return (ft_error_cd_not_set(minishell, "OLDPWD"));
 			change_old_new_pwd(minishell, find_pwd(minishell, "PWD"), "OLDPWD");
 			change_old_new_pwd(minishell, tmp, "PWD");
 			if (chdir(tmp) != 0)
 				return (ft_error_cd_no_file(minishell, tmp));
+			tmp_str = malloc(3);
+			tmp_str[0] =  "pwd";
+			get_pwd(minishell, tmp_str);
+			free(tmp_str);
 		}
 		i++;
 	}

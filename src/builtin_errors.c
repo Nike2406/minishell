@@ -6,7 +6,7 @@
 /*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:53:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/12 17:52:23 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/12 18:02:26 by prochell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,9 @@ int	ft_error_cd(t_shell *minishell)
 	return (0);
 }
 
-int	ft_error_cd_home_not_set(t_shell *minishell)
+int	ft_error_cd_not_set(t_shell *minishell, char *str)
 {
-	char	*str;
-
-	str = "minishell: cd: HOME not set\n";
-	write(2, str, ft_strlen(str));
+	printf("minishell: cd: %s not set\n", str);
 	minishell->child_exit_status = 1;
 	return (0);
 }
