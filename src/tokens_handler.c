@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 17:23:15 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 23:19:18 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	handle_pipe(t_shell *minishell, int *i)
 	(*i) = -1;
 	free(minishell->input);
 	minishell->input = ret;
+	minishell->launch_method = 1;
 	return (0);
 }
 

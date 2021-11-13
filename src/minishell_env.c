@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   minishell_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/04 00:04:48 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/09 20:58:00 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 21:55:50 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ int	get_env(t_shell *minishell, char **str)
 		env_tmp = minishell->environment;
 		while (env_tmp != NULL)
 		{
-			printf("%s=%s\n", env_tmp->key, env_tmp->value);
+			write(1, env_tmp->key, ft_strlen(env_tmp->key));
+			write(1, "=", 1);
+			write(1, env_tmp->value, ft_strlen(env_tmp->value));
+			write(1, "\n", 1);
 			env_tmp = env_tmp->next;
 		}
 		minishell->child_exit_status = 0;

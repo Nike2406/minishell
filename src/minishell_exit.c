@@ -6,11 +6,30 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 19:56:00 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/09 16:33:40 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:35:07 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	has_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		if (!ft_isdigit(str[i++]))
+			return (0);
+	return (1);
+}
+
+static int	exit_error(char *str)
+{
+	write(2, "minishell: exit: ", 17);
+	write(2, str, ft_strlen(str));
+	write(2, ": numeric argument required\n", 28);
+	exit(255);
+}
 
 int	get_exit(t_shell *minishell, char **str)
 {
@@ -28,7 +47,13 @@ int	get_exit(t_shell *minishell, char **str)
 			return (0);
 		}
 		else if (len == 2)
-			exit(ft_atoi(str[len - 1]));
+		{
+			write(2, "exit\n", 5);
+			if (has_digit(str[len - 1]))
+				exit(ft_atoi(str[len - 1]));
+			exit_error(str[len - 1]);
+		}
+		write(2, "exit\n", 5);
 		exit(0);
 	}
 	return (1);

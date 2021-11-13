@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:38:10 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/12 18:02:29 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:12:20 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_shell
 	int		fd0_source;
 	int		fd1_source;
 	int		fd2_source;
+	int		launch_method;
 	t_prog	*apps;
 	t_envp	*environment;
 	int		argc;
@@ -106,13 +107,16 @@ int		double_ampersand(t_shell *minishell, int *i);
 int		wildcards_handler(t_shell *minishell, int *i);
 int		minishell_pre_executor(t_shell *minishell);
 int		minishell_post_executor(t_shell *minishell);
-void	minishell_executor(t_shell *minishell);
+void	minishell_scheduler(t_shell *minishell);
 char	*get_prog_name(t_shell *minishell);
 void	garbage_collector(t_shell *minishell);
 int		syntax_error(t_shell *minishell, const char *token, int len);
+int		runtime_error(t_shell *minishell, char *arg_name);
 int		standard_error(t_shell *minishell, char *arg_name);
 int		executing_error(t_shell *minishell);
+int		pid_error(t_shell *minishell);
 int		builtin_exec(t_shell *minishell);
+void	computing_exit_status(t_shell *minishell, int ret);
 
 void	get_environment(t_shell *minishell, char **env);
 int		get_pwd(t_shell *minishell, char **str);
@@ -137,6 +141,7 @@ int		get_exit(t_shell *minishell, char **str);
 int		get_exec(t_shell *minishell, char **str);
 char	*ft_getenv_value(t_envp *lst, char *key);
 void	cntrl_c(int sig);
+void	cntrl_c2(int sig);
 void	ft_lstadd_back_minishell(t_envp **lst, t_envp *new);
 void	ft_lstclear_minishell(t_envp **lst);
 t_envp	*ft_lstlast_minishell(t_envp *lst);

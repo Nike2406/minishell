@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:25:47 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:31:52 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:10:42 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,11 @@ void	check_list(t_envp *list)
 	tmp_lst = list;
 	while (tmp_lst)
 	{
-		printf("declare -x %s=\"%s\"\n", tmp_lst->key, tmp_lst->value);
+		write(1, "declare -x ", 11);
+		write(1, tmp_lst->key, ft_strlen(tmp_lst->key));
+		write(1, "=\"", 2);
+		write(1, tmp_lst->value, ft_strlen(tmp_lst->value));
+		write(1, "\"\n", 2);
 		tmp_lst = tmp_lst->next;
 	}
 }
@@ -58,4 +62,12 @@ char	**get_arr_env(t_envp *env)
 	}
 	arr[i] = NULL;
 	return (arr);
+}
+
+void	computing_exit_status(t_shell *minishell, int ret)
+{
+	if WIFSIGNALED(ret)
+		minishell->child_exit_status = WTERMSIG(ret) + 128;
+	else
+		minishell->child_exit_status = WEXITSTATUS(ret);
 }

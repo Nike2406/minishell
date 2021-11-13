@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 17:24:35 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 16:05:10 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 15:39:12 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ static void	initialization(t_shell *minishell, int argc, char **argv)
 	minishell->environment = NULL;
 	minishell->child_exit_status = 0;
 	minishell->apps = NULL;
+	minishell->launch_method = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -99,7 +100,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(minishell.input);
 		if (minishell_pre_parser(&minishell))
-			minishell_executor(&minishell);
+			minishell_scheduler(&minishell);
 		garbage_collector(&minishell);
 	}
 }

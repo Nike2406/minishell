@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:28:21 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/10 16:04:25 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/12 21:33:55 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 int	get_pwd(t_shell *minishell, char **str)
 {
-	char	tmp[1000];
+	char	*tmp;
 
 	if (!ft_strcmp("pwd", str[0]))
 	{
-		printf("%s\n", getcwd(tmp, sizeof(tmp)));
+		tmp = getcwd(NULL, 0);
+		write(1, tmp, ft_strlen(tmp));
+		write(1, "\n", 1);
+		free(tmp);
 		minishell->child_exit_status = 0;
 		return (0);
 	}

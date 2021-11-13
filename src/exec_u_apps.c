@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_executor_u.c                             :+:      :+:    :+:   */
+/*   exec_u_apps.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:41:29 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 03:14:18 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,16 @@ int	minishell_pre_executor(t_shell *minishell)
 {
 	if (minishell->apps->token == IS_PIPE)
 		if (pipe(minishell->apps->fd))
-			return (standard_error(minishell, NULL));
+			return (runtime_error(minishell, NULL));
 	if (minishell->apps->output_file != NULL)
-		dup2(minishell->apps->fd_output_file, 1);
+		if (dup2(minishell->apps->fd_output_file, 1) == -1)
+			return (runtime_error(minishell, NULL));
 	if (minishell->apps->input_file != NULL)
-		dup2(minishell->apps->fd_input_file, 0);
+		if (dup2(minishell->apps->fd_input_file, 0) == -1)
+			return (runtime_error(minishell, NULL));
 	if (minishell->apps->heredoc != NULL)
-		dup2(minishell->apps->fd_heredoc[0], 0);
+		if (dup2(minishell->apps->fd_heredoc[0], 0) == -1)
+			return (runtime_error(minishell, NULL));
 	return (0);
 }
 
@@ -76,19 +79,22 @@ int	minishell_post_executor(t_shell *minishell)
 		dup2(minishell->apps->fd[0], 0);
 		close(minishell->apps->fd[1]);
 	}
-	if (minishell->apps->token != IS_PIPE)
+	else if (minishell->apps->token != IS_PIPE)
 	{
 		dup2(minishell->fd0_source, 0);
 		dup2(minishell->fd1_source, 1);
 		dup2(minishell->fd2_source, 2);
 	}
 	if (minishell->apps->output_file != NULL)
+	{
 		close(minishell->apps->fd_output_file);
+		dup2(minishell->fd1_source, 1);
+	}
 	if (minishell->apps->input_file != NULL)
 		close(minishell->apps->fd_input_file);
 	if (minishell->apps->heredoc != NULL)
 	{
-		close(minishell->apps->fd[0]);
+		close(minishell->apps->fd_heredoc[0]);
 		dup2(minishell->fd0_source, 0);
 	}
 	return (0);

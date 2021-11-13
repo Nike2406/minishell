@@ -6,21 +6,31 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:41:29 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 19:51:32 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 17:11:21 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pid_error(t_shell *minishell)
+static int	source_fd_replacer(t_shell *minishell, int switcher)
 {
-	dup2(minishell->fd0_source, 0);
-	dup2(minishell->fd1_source, 1);
-	dup2(minishell->fd2_source, 2);
-	return (standard_error(minishell, "fork"));
+	if (switcher == 0)
+	{
+		minishell->fd0_source = dup(0);
+		minishell->fd1_source = dup(1);
+		minishell->fd2_source = dup(2);
+	}
+	else
+	{
+		close(minishell->fd0_source);
+		close(minishell->fd1_source);
+		close(minishell->fd2_source);
+		minishell->launch_method = 0;
+	}
+	return (0);
 }
 
-int	shell_executor2(t_shell *minishell)
+int	minishell_executor_pipe(t_shell *minishell)
 {
 	pid_t	pid;
 	int		ret;
@@ -44,18 +54,13 @@ int	shell_executor2(t_shell *minishell)
 	else if (pid == -1)
 		return (pid_error(minishell));
 	waitpid(-1, &ret, 0);
-	minishell->child_exit_status = WEXITSTATUS(ret);
+	computing_exit_status(minishell, ret);
 	return (0);
 }
 
-static int	shell_executor(t_shell *minishell)
+static int	minishell_executor_no_pipe(t_shell *minishell)
 {
-	if (minishell->apps->token == IS_PIPE)
-	{
-		if (shell_executor2(minishell))
-			return (1);
-	}
-	else if (get_pwd(minishell, minishell->apps->argv) < 1)
+	if (get_pwd(minishell, minishell->apps->argv) < 1)
 		return (0);
 	else if (get_echo(minishell, minishell->apps->argv) < 1)
 		return (0);
@@ -70,34 +75,44 @@ static int	shell_executor(t_shell *minishell)
 	else if (get_exit(minishell, minishell->apps->argv) < 1)
 		return (0);
 	else
-	{
-		if (shell_executor2(minishell))
+		if (minishell_executor_pipe(minishell))
 			return (1);
-	}
 	return (0);
 }
 
-void	minishell_executor(t_shell *minishell)
+void	shell_executor(t_shell *minishell)
 {
-	minishell->fd0_source = dup(0);
-	minishell->fd1_source = dup(1);
-	minishell->fd2_source = dup(2);
 	minishell->apps = minishell->apps->head;
 	while (1)
 	{
-		minishell_pre_executor(minishell);
-		if (minishell->apps->do_not_launch == 0)
-			if (shell_executor(minishell))
+		if (minishell_pre_executor(minishell))
+			break ;
+		signal(SIGINT, cntrl_c2);
+		if (minishell->launch_method == IS_PIPE && minishell->apps->argv)
+		{
+			if (minishell_executor_pipe(minishell))
 				break ;
+		}
+		else if (minishell->apps->argv)
+		{
+			if (minishell_executor_no_pipe(minishell))
+				break ;
+		}
 		minishell_post_executor(minishell);
-		if (minishell->apps->next == NULL || (minishell->apps->token
-				== TOKEN_OR && minishell->child_exit_status == 0)
+		if (minishell->apps->next == NULL
+			|| (minishell->apps->token == TOKEN_OR
+				&& minishell->child_exit_status == 0)
 			|| (minishell->apps->token == TOKEN_AND
 				&& minishell->child_exit_status != 0))
 			break ;
 		minishell->apps = minishell->apps->next;
 	}
-	close(minishell->fd0_source);
-	close(minishell->fd1_source);
-	close(minishell->fd2_source);
+}
+
+void	minishell_scheduler(t_shell *minishell)
+{
+	source_fd_replacer(minishell, 0);
+	shell_executor(minishell);
+	signal(SIGINT, cntrl_c);
+	source_fd_replacer(minishell, 1);
 }

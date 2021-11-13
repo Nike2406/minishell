@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_cd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prochell <prochell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/12 18:27:12 by prochell         ###   ########.fr       */
+/*   Updated: 2021/11/13 03:21:49 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	cd_get_home(t_shell *minishell)
 		if (!ft_strcmp("HOME", tmp->key))
 		{
 			str = tmp->value;
-			break;
+			break ;
 		}
 		tmp = tmp->next;
 	}
@@ -87,7 +87,7 @@ int	cd_swap(t_shell *minishell, char **str)
 			if (chdir(tmp) != 0)
 				return (ft_error_cd_no_file(minishell, tmp));
 			tmp_str = malloc(3);
-			tmp_str[0] =  "pwd";
+			tmp_str[0] = "pwd";
 			get_pwd(minishell, tmp_str);
 			free(tmp_str);
 		}

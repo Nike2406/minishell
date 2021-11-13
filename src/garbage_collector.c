@@ -6,11 +6,18 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:05:27 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/10 18:21:27 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 13:51:44 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	garbage_collector2(t_shell *minishell)
+{
+	if (minishell->input != NULL)
+		free(minishell->input);
+	minishell->launch_method = 0;
+}
 
 void	garbage_collector(t_shell *minishell)
 {
@@ -37,6 +44,5 @@ void	garbage_collector(t_shell *minishell)
 		minishell->apps = minishell->apps->next;
 		free(tmp);
 	}
-	if (minishell->input != NULL)
-		free(minishell->input);
+	garbage_collector2(minishell);
 }
