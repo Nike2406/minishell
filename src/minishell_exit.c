@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/12 19:56:00 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/13 15:35:07 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 18:27:48 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ static int	has_digit(char *str)
 {
 	int	i;
 
-	i = 0;
+	if (str[0])
+	{
+		if ((!ft_isdigit(str[0]) && str[0] != '-') || (str[0] == '-' && str[1] == '\0'))
+			return (0);
+	}
+	i = 1;
 	while (str[i])
 		if (!ft_isdigit(str[i++]))
 			return (0);

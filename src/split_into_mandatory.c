@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:05:21 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/12 21:55:36 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/13 20:38:26 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	split_into_output_file(t_shell *minishell, int *i)
 		if (close(minishell->apps->fd_output_file) == -1)
 			standard_error(minishell, NULL);
 		free(minishell->apps->output_file);
+		minishell->apps->output_file = NULL;
 	}
 	if (minishell->apps->do_not_launch == 0)
 	{
