@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/10 18:38:10 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/13 17:12:20 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/15 19:57:01 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <dirent.h>
 # include <sys/types.h>
 # include <sys/errno.h>
+# include <sys/stat.h>
 
 # define IS_PIPE						1
 # define TOKEN_OR						2
@@ -116,7 +117,8 @@ int		standard_error(t_shell *minishell, char *arg_name);
 int		executing_error(t_shell *minishell);
 int		pid_error(t_shell *minishell);
 int		builtin_exec(t_shell *minishell);
-void	computing_exit_status(t_shell *minishell, int ret);
+void	computing_exit_status(t_shell *minishell);
+void	heredoc_free(t_shell *minishell);
 
 void	get_environment(t_shell *minishell, char **env);
 int		get_pwd(t_shell *minishell, char **str);

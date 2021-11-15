@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 15:46:16 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/13 18:04:55 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/14 20:31:11 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static int	dollar_cases(t_shell *minishell, int *i, int j)
 	free(minishell->input);
 	*i -= 2;
 	minishell->input = tmp;
-	printf("%s\n", minishell->input);
 	return (0);
 }
 

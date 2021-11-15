@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 19:25:47 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/13 17:10:42 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/15 19:25:50 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,20 @@ char	**get_arr_env(t_envp *env)
 	return (arr);
 }
 
-void	computing_exit_status(t_shell *minishell, int ret)
+void	computing_exit_status(t_shell *minishell)
 {
+	int	ret;
+
+	waitpid(-1, &ret, 0);
 	if WIFSIGNALED(ret)
 		minishell->child_exit_status = WTERMSIG(ret) + 128;
 	else
 		minishell->child_exit_status = WEXITSTATUS(ret);
+}
+
+void	heredoc_free(t_shell *minishell)
+{
+	close(minishell->apps->fd_heredoc[0]);
+	free(minishell->apps->heredoc);
+	minishell->apps->heredoc = NULL;
 }

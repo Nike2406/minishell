@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/09 16:41:29 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/13 21:23:19 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/15 18:41:38 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static int	source_fd_replacer(t_shell *minishell, int switcher)
 		close(minishell->fd0_source);
 		close(minishell->fd1_source);
 		close(minishell->fd2_source);
-		minishell->launch_method = 0;
 	}
 	return (0);
 }
@@ -33,7 +32,6 @@ static int	source_fd_replacer(t_shell *minishell, int switcher)
 int	minishell_executor_pipe(t_shell *minishell)
 {
 	pid_t	pid;
-	int		ret;
 
 	pid = fork();
 	if (pid == 0)
@@ -44,8 +42,9 @@ int	minishell_executor_pipe(t_shell *minishell)
 			dup2(minishell->apps->fd[1], 1);
 			close(minishell->apps->fd[0]);
 		}
-		if (dup2(minishell->apps->fd_input_file, 0) == -1)
-			exit (1);
+		if (minishell->apps->input_file != NULL)
+			if (dup2(minishell->apps->fd_input_file, 0) == -1)
+				exit (1);
 		if (builtin_exec(minishell))
 			;
 		else if (execve(get_prog_name(minishell), minishell->apps->argv,
@@ -55,8 +54,7 @@ int	minishell_executor_pipe(t_shell *minishell)
 	}
 	else if (pid == -1)
 		return (pid_error(minishell));
-	waitpid(-1, &ret, 0);
-	computing_exit_status(minishell, ret);
+	computing_exit_status(minishell);
 	return (0);
 }
 

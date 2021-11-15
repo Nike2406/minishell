@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/05 16:53:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/12 21:36:18 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/15 19:33:08 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_error_cd_not_set(t_shell *minishell, char *str)
 {
 	write(2, "minishell: cd: ", 15);
 	write(2, str, ft_strlen(str));
-	write(2, "not set\n", 8);
+	write(2, " not set\n", 9);
 	minishell->child_exit_status = 1;
 	return (0);
 }

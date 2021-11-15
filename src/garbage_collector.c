@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 16:05:27 by signacia          #+#    #+#             */
-/*   Updated: 2021/11/13 13:51:44 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/15 17:38:43 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	garbage_collector(t_shell *minishell)
 	if (minishell->apps != NULL)
 		minishell->apps = minishell->apps->head;
 	while (minishell->apps != NULL)
-	{
+	{	
 		i = 0;
 		while (minishell->apps->argv && minishell->apps->argv[i])
 			free(minishell->apps->argv[i++]);
