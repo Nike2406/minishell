@@ -6,7 +6,7 @@
 /*   By: signacia <signacia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/07 15:37:01 by prochell          #+#    #+#             */
-/*   Updated: 2021/11/16 19:10:14 by signacia         ###   ########.fr       */
+/*   Updated: 2021/11/16 19:42:44 by signacia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static int	cd_swap(t_shell *minishell)
 	change_old_new_pwd(minishell, tmp_str, "OLDPWD");
 	free(tmp_str);
 	change_old_new_pwd(minishell, tmp, "PWD");
-	printf("%s\n", tmp);
+	write(1, tmp, ft_strlen(tmp));
+	write(1, "\n", 1);
 	free(tmp);
 	minishell->child_exit_status = 0;
 	return (0);
